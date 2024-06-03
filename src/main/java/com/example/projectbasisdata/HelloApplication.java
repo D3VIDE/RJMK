@@ -21,3 +21,7 @@ public class HelloApplication extends Application {
         launch();
     }
 }
+
+class tester{
+
+}
