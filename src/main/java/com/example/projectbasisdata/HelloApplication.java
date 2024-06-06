@@ -23,5 +23,5 @@ public class HelloApplication extends Application {
 }
 
 class tester{
-
+   String kontol;
 }
