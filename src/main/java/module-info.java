@@ -5,6 +5,7 @@ module com.example.projectbasisdata {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
 
     opens com.example.projectbasisdata to javafx.fxml;
     exports com.example.projectbasisdata;
