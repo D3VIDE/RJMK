@@ -90,14 +90,43 @@ public class MenuScreenController implements Initializable {
     private Button menu_clearBtn;
     @FXML
     private ComboBox<?> menu_ukuran;
+    private String[] sizeList = new String[]{"Large", "Medium", "Small"};
+    private String[] kategoriList = new String[]{"Coffee", "Cream", "Add Ons"};
 
     @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
     }
+    public void menuSizeList() {
+        List<String> sizeL = new ArrayList<>();
+        String[] var2 = this.sizeList;
+        int var3 = var2.length;
+
+        for(int var4 = 0; var4 < var3; ++var4) {
+            String data = var2[var4];
+            sizeL.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(sizeL);
+        this.menu_ukuran.setItems(listData);
+    }
+    public void menuKategoriList() {
+        List<String> kategoriL = new ArrayList<>();
+        String[] var2 = this.kategoriList;
+        int var3 = var2.length;
+
+        for(int var4 = 0; var4 < var3; ++var4) {
+            String data = var2[var4];
+            kategoriL.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(kategoriL);
+        this.menu_kategori.setItems(listData);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        this.menuSizeList();
+        this.menuKategoriList();
     }
 }
