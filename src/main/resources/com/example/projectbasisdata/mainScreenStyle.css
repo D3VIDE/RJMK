@@ -7,10 +7,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : Jose Errando
 */
 .header{
-    -fx-background-color: linear-gradient(to bottom,#2E3192,#1BFFFF);
+    -fx-background-color: linear-gradient(to bottom right,#09203F ,#537895);
 }
 .nav-form{
-    -fx-background-color: linear-gradient(to bottom right,#2E3192,#1BFFFF);
+    -fx-background-color: linear-gradient(to bottom right,#09203F ,#537895);
 }
 .nav-button{
     -fx-background-color: transparent;
