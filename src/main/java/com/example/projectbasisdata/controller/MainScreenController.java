@@ -1,6 +1,7 @@
 package com.example.projectbasisdata.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import com.example.projectbasisdata.MainApp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -67,5 +70,16 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+    @FXML
+    public void inventoryClick() throws IOException {
+        Parent root = FXMLLoader.load(MainApp.class.getResource("inventoryScreen.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setTitle("Project Basis Data");
+        stage.setMinWidth(1100.0);
+        stage.setMinHeight(600.0);
+        stage.setScene(scene);
+        stage.show();
     }
 }

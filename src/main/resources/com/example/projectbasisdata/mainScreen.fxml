@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.MainScreenController">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -43,10 +36,11 @@
                                  </font>
                               </Label>
                               <Button fx:id="dashboard_btn" layoutX="13.0" layoutY="208.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="DASHBOARD" />
-                              <Button fx:id="inventory_btn" layoutX="13.0" layoutY="260.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="MENU" />
-                              <Button fx:id="menu_btn" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="TRANSAKSI" />
+                              <Button fx:id="inventory_btn" layoutX="13.0" layoutY="260.0" mnemonicParsing="false" onAction="#inventoryClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="INVENTORY" />
+                              <Button fx:id="menu_btn" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="MENU" />
                               <Button fx:id="customer_btn" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="CUSTOMER" />
                               <Button fx:id="promo_btn" layoutX="13.0" layoutY="417.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="PROMO" />
+                              <Button layoutX="13.0" layoutY="469.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="??" />
                            </children>
                         </AnchorPane>
                      </children>
