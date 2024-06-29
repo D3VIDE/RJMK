@@ -70,6 +70,10 @@ public class MainScreenController implements Initializable {
     public void menuClick() throws IOException {
         MainApp.setRoot("menuScreen");
     }
+    @FXML
+    public void transaksiClick() throws IOException {
+        MainApp.setRoot("transaksiScreen");
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

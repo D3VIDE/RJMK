@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 
 import com.example.projectbasisdata.MainApp;
 import com.example.projectbasisdata.model.DetailMenu;
+import com.example.projectbasisdata.model.Order;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,10 +47,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MenuScreenController implements Initializable {
-
+public class TransaksiScreenController implements Initializable {
     @FXML
-    private AnchorPane menu_form;
+    private AnchorPane transaksi_form;
     @FXML
     private Button dashboard_btn;
     @FXML
@@ -61,76 +61,39 @@ public class MenuScreenController implements Initializable {
     @FXML
     private Button promo_btn;
     @FXML
-    private TableView<DetailMenu> menu_tableView;
+    private GridPane menu_gridPane;
     @FXML
-    private TableColumn<DetailMenu, Integer> menu_col_idProduk;
+    private TableView<Order> transaksi_tableView;
     @FXML
-    private TableColumn<DetailMenu, String> menu_col_kategori;
+    private TableColumn<Order, String> transaksi_col_namaProduk;
     @FXML
-    private TableColumn<DetailMenu, String> menu_col_menu;
+    private TableColumn<Order, Integer> transaksi_col_jumlah;
     @FXML
-    private TableColumn<DetailMenu, String> menu_col_ukuran;
+    private TableColumn<Order, Integer> transaksi_col_harga;
     @FXML
-    private TableColumn<DetailMenu, Integer> menu_col_harga;
+    private TableColumn<Order, String> transaksi_col_size;
     @FXML
-    private TextField menu_idProduk;
+    private Label transaksi_labelTotal;
     @FXML
-    private TextField menu_menu;
+    private TextField transaksi_jumlahBayar;
     @FXML
-    private ComboBox<?> menu_kategori;
+    private Label transaksi_labelKembalian;
     @FXML
-    private TextField menu_harga;
+    private Button transaksi_bayarBtn;
     @FXML
-    private Button menu_addBtn;
+    private Button transaksi_deleteBtn;
     @FXML
-    private Button menu_updateBtn;
-    @FXML
-    private Button menu_deleteBtn;
-    @FXML
-    private Button menu_clearBtn;
-    @FXML
-    private ComboBox<?> menu_ukuran;
-    private String[] sizeList = new String[]{"Large", "Medium", "Small"};
-    private String[] kategoriList = new String[]{"Coffee", "Cream", "Add Ons"};
-
+    private Button transaksi_strukBtn;
     @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
     }
     @FXML
-    public void transaksiClick() throws IOException {
-        MainApp.setRoot("transaksiScreen");
+    public void menuClick() throws IOException {
+        MainApp.setRoot("menuScreen");
     }
-    public void menuSizeList() {
-        List<String> sizeL = new ArrayList<>();
-        String[] var2 = this.sizeList;
-        int var3 = var2.length;
-
-        for(int var4 = 0; var4 < var3; ++var4) {
-            String data = var2[var4];
-            sizeL.add(data);
-        }
-
-        ObservableList listData = FXCollections.observableArrayList(sizeL);
-        this.menu_ukuran.setItems(listData);
-    }
-    public void menuKategoriList() {
-        List<String> kategoriL = new ArrayList<>();
-        String[] var2 = this.kategoriList;
-        int var3 = var2.length;
-
-        for(int var4 = 0; var4 < var3; ++var4) {
-            String data = var2[var4];
-            kategoriL.add(data);
-        }
-
-        ObservableList listData = FXCollections.observableArrayList(kategoriL);
-        this.menu_kategori.setItems(listData);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.menuSizeList();
-        this.menuKategoriList();
+
     }
 }
