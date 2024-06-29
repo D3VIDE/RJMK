@@ -68,14 +68,7 @@ public class MainScreenController implements Initializable {
 
     @FXML
     public void menuClick() throws IOException {
-        Parent root = FXMLLoader.load(MainApp.class.getResource("menuScreen.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("Project Basis Data");
-        stage.setMinWidth(1100.0);
-        stage.setMinHeight(600.0);
-        stage.setScene(scene);
-        stage.show();
+        MainApp.setRoot("menuScreen");
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
