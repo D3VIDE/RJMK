@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.MenuScreenController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="menu_form" prefHeight="200.0" prefWidth="200.0">
          <children>
             <BorderPane layoutX="106.0" layoutY="162.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <left>
@@ -42,11 +34,11 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="13.0" layoutY="208.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="DASHBOARD" />
-                              <Button layoutX="13.0" layoutY="260.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="MENU" />
-                              <Button layoutX="13.0" layoutY="312.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="TRANSAKSI" />
-                              <Button layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="CUSTOMER" />
-                              <Button layoutX="13.0" layoutY="417.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="PROMO" />
+                              <Button fx:id="dashboard_btn" layoutX="13.0" layoutY="208.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="DASHBOARD" />
+                              <Button fx:id="menu_btn" layoutX="13.0" layoutY="260.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="MENU" />
+                              <Button fx:id="transaksi_btn" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="TRANSAKSI" />
+                              <Button fx:id="customer_btn" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="CUSTOMER" />
+                              <Button fx:id="promo_btn" layoutX="13.0" layoutY="417.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="PROMO" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -64,13 +56,13 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TableView layoutX="13.0" layoutY="16.0" prefHeight="258.0" prefWidth="820.0" AnchorPane.bottomAnchor="12.800000000000068" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.000000000000114" AnchorPane.topAnchor="16.0">
+                                    <TableView fx:id="menu_tableView" layoutX="13.0" layoutY="16.0" prefHeight="258.0" prefWidth="820.0" AnchorPane.bottomAnchor="12.800000000000068" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="12.000000000000114" AnchorPane.topAnchor="16.0">
                                       <columns>
-                                        <TableColumn prefWidth="87.19999313354492" text="ID Produk" />
-                                        <TableColumn prefWidth="92.00001525878906" text="Kategori" />
-                                          <TableColumn prefWidth="92.00001525878906" text="Menu" />
-                                          <TableColumn prefWidth="92.00001525878906" text="Ukuran" />
-                                          <TableColumn prefWidth="92.00001525878906" text="Harga" />
+                                        <TableColumn fx:id="menu_col_idProduk" prefWidth="87.19999313354492" text="ID Produk" />
+                                        <TableColumn fx:id="menu_col_kategori" prefWidth="92.00001525878906" text="Kategori" />
+                                          <TableColumn fx:id="menu_col_menu" prefWidth="92.00001525878906" text="Menu" />
+                                          <TableColumn fx:id="menu_col_ukuran" prefWidth="92.00001525878906" text="Ukuran" />
+                                          <TableColumn fx:id="menu_col_harga" prefWidth="92.00001525878906" text="Harga" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -90,14 +82,14 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="129.0" layoutY="22.0" />
+                                    <TextField fx:id="menu_idProduk" layoutX="129.0" layoutY="22.0" />
                                     <Label layoutX="25.0" layoutY="65.0" text="Nama Produk:">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="129.0" layoutY="62.0" />
-                                    <ComboBox layoutX="129.0" layoutY="97.0" prefWidth="150.0" promptText="Choose Kategori" />
+                                    <TextField fx:id="menu_menu" layoutX="129.0" layoutY="62.0" />
+                                    <ComboBox fx:id="menu_kategori" layoutX="129.0" layoutY="97.0" prefWidth="150.0" promptText="Choose Kategori" />
                                     <Label layoutX="60.0" layoutY="100.0" text="Kategori:">
                                        <font>
                                           <Font size="14.0" />
@@ -113,12 +105,12 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField layoutX="395.0" layoutY="62.0" promptText="\$0.0" />
-                                    <Button layoutX="65.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="ADD" />
-                                    <Button layoutX="160.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
-                                    <Button layoutX="254.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
-                                    <Button layoutX="349.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
-                                    <ComboBox layoutX="395.0" layoutY="22.0" prefWidth="150.0" promptText="Choose Size" />
+                                    <TextField fx:id="menu_harga" layoutX="395.0" layoutY="62.0" promptText="\$0.0" />
+                                    <Button fx:id="menu_addBtn" layoutX="65.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="ADD" />
+                                    <Button fx:id="menu_updateBtn" layoutX="160.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
+                                    <Button fx:id="menu_deleteBtn" layoutX="254.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
+                                    <Button fx:id="menu_clearBtn" layoutX="349.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
+                                    <ComboBox fx:id="menu_ukuran" layoutX="395.0" layoutY="22.0" prefWidth="150.0" promptText="Choose Size" />
                                  </children>
                               </AnchorPane>
                               <Separator layoutX="17.0" layoutY="319.0" prefHeight="11.0" prefWidth="840.0" AnchorPane.bottomAnchor="269.8" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="16.600000000000023" />

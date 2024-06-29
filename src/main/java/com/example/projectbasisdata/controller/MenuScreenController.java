@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.example.projectbasisdata.MainApp;
+import com.example.projectbasisdata.model.DetailMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,10 +46,10 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MainScreenController implements Initializable {
+public class MenuScreenController implements Initializable {
 
     @FXML
-    private AnchorPane main_form;
+    private AnchorPane menu_form;
     @FXML
     private Button dashboard_btn;
     @FXML
@@ -60,26 +61,11 @@ public class MainScreenController implements Initializable {
     @FXML
     private Button promo_btn;
     @FXML
-    private AnchorPane dashboard_form;
-    @FXML
-    private AreaChart<?, ?> dashboard_incomeChart;
-    @FXML
-    private AreaChart<?, ?> dashboard_customerChart;
+    private TableView<DetailMenu> menu_tableView;
 
-    @FXML
-    public void menuClick() throws IOException {
-        Parent root = FXMLLoader.load(MainApp.class.getResource("menuScreen.fxml"));
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setTitle("Project Basis Data");
-        stage.setMinWidth(1100.0);
-        stage.setMinHeight(600.0);
-        stage.setScene(scene);
-        stage.show();
-    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
 }
