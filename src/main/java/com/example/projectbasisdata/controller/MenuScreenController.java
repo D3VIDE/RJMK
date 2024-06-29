@@ -62,7 +62,39 @@ public class MenuScreenController implements Initializable {
     private Button promo_btn;
     @FXML
     private TableView<DetailMenu> menu_tableView;
+    @FXML
+    private TableColumn<DetailMenu, Integer> menu_col_idProduk;
+    @FXML
+    private TableColumn<DetailMenu, String> menu_col_kategori;
+    @FXML
+    private TableColumn<DetailMenu, String> menu_col_menu;
+    @FXML
+    private TableColumn<DetailMenu, String> menu_col_ukuran;
+    @FXML
+    private TableColumn<DetailMenu, Integer> menu_col_harga;
+    @FXML
+    private TextField menu_idProduk;
+    @FXML
+    private TextField menu_menu;
+    @FXML
+    private ComboBox<?> menu_kategori;
+    @FXML
+    private TextField menu_harga;
+    @FXML
+    private Button menu_addBtn;
+    @FXML
+    private Button menu_updateBtn;
+    @FXML
+    private Button menu_deleteBtn;
+    @FXML
+    private Button menu_clearBtn;
+    @FXML
+    private ComboBox<?> menu_ukuran;
 
+    @FXML
+    public void dashboardClick() throws IOException {
+        MainApp.setRoot("mainScreen");
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
