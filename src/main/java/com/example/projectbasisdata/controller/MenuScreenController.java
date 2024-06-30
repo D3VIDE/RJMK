@@ -100,7 +100,8 @@ public class MenuScreenController implements Initializable {
     private Statement statement;
     private ResultSet result;
     private String[] sizeList = new String[]{"Large", "Medium", "Small"};
-    private String[] kategoriList = new String[]{"Coffee", "Cream", "Add Ons"};
+    private String[] kategoriList = new String[]{"COFFEE", "CREAM", "ADD ONS"};
+    private Alert alert;
 
     @FXML
     public void dashboardClick() throws IOException {
@@ -217,6 +218,68 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public void menuAddBtn() throws SQLException {
+        if (!this.menu_idProduk.getText().isEmpty() && !this.menu_menu.getText().isEmpty() && this.menu_kategori.getSelectionModel().getSelectedItem() != null && this.menu_ukuran.getSelectionModel().getSelectedItem() != null && !this.menu_harga.getText().isEmpty()) {
+            String checkDetailMenuID = "SELECT detailmenu_id FROM detail_menu WHERE detailmenu_id = " + this.menu_idProduk.getText();
+            this.connect = DatabaseConnection.getConnection();
+
+            try {
+                this.statement = this.connect.createStatement();
+                this.result = this.statement.executeQuery(checkDetailMenuID);
+                if (this.result.next()) {
+                    this.alert = new Alert(AlertType.ERROR);
+                    this.alert.setTitle("Message");
+                    this.alert.setHeaderText((String)null);
+                    this.alert.setContentText("ID produk "+ this.menu_idProduk.getText() + " sudah digunakan");
+                    this.alert.showAndWait();
+                } else {
+                    String insertData = "INSERT INTO menu (menu_name, kategori_id)" +
+                            "VALUES (" +
+                            "?," +
+                            "(SELECT kategori_id FROM kategori WHERE kategori_name = ?)" +
+                            ")";
+                    this.prepare = this.connect.prepareStatement(insertData);
+                    this.prepare.setString(1, this.menu_menu.getText());
+                    this.prepare.setString(2, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                    this.prepare.executeUpdate();
+                    String insertData2 = "INSERT INTO detail_menu (harga_nominal, menu_id, size_id)" +
+                            "VALUES (" +
+                            "?," +
+                            "(SELECT menu_id FROM menu WHERE menu_name = ? AND kategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?))," +
+                            "(SELECT size_id FROM size WHERE size_name = ?))";
+                    this.prepare = this.connect.prepareStatement(insertData2);
+                    this.prepare.setInt(1, Integer.parseInt(this.menu_harga.getText()));
+                    this.prepare.setString(2, this.menu_menu.getText());
+                    this.prepare.setString(3, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                    this.prepare.setString(4, (String) this.menu_ukuran.getSelectionModel().getSelectedItem());
+                    this.prepare.executeUpdate();
+                    this.alert = new Alert(AlertType.INFORMATION);
+                    this.alert.setTitle("Error Message");
+                    this.alert.setHeaderText((String)null);
+                    this.alert.setContentText("Successfully Added!");
+                    this.alert.showAndWait();
+                    this.initializeMenu();
+                    this.menuClearBtn();
+                }
+            } catch (Exception var6) {
+                var6.printStackTrace();
+            }
+        } else {
+            this.alert = new Alert(AlertType.ERROR);
+            this.alert.setTitle("Message");
+            this.alert.setHeaderText((String)null);
+            this.alert.setContentText("Please fill all blank fields");
+            this.alert.showAndWait();
+        }
+
+    }
+    public void menuClearBtn() {
+        this.menu_idProduk.setText("");
+        this.menu_menu.setText("");
+        this.menu_kategori.getSelectionModel().clearSelection();
+        this.menu_ukuran.getSelectionModel().clearSelection();
+        this.menu_harga.setText("");
     }
 
     @Override
