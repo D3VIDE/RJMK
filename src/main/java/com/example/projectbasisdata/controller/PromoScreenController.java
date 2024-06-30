@@ -283,6 +283,16 @@ public class PromoScreenController implements Initializable {
         this.promo_col_metode.setCellValueFactory(new PropertyValueFactory<>("method_name"));
         this.promo_tableView.setItems(this.promoList);
     }
+    public void promoClearBtn() {
+        this.promo_idPromo.setText("");
+        this.promo_namaPromo.setText("");
+        this.promo_nominal.setText("");
+        this.promo_kategori.getSelectionModel().clearSelection();
+        this.promo_menu.getSelectionModel().clearSelection();
+        this.promo_metode.getSelectionModel().clearSelection();
+        this.promo_tanggalBerlaku.setValue(null);
+        this.promo_tanggalBerakhir.setValue(null);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
