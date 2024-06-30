@@ -263,8 +263,8 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
                     this.initializeMenu();
                     this.menuClearBtn();
                 }
-            } catch (Exception var6) {
-                var6.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } else {
             this.alert = new Alert(AlertType.ERROR);
@@ -274,6 +274,49 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
             this.alert.showAndWait();
         }
 
+    }
+    public void menuUpdateBtn() throws SQLException {
+        if (!this.menu_idProduk.getText().isEmpty() && !this.menu_menu.getText().isEmpty() && this.menu_kategori.getSelectionModel().getSelectedItem() != null && this.menu_ukuran.getSelectionModel().getSelectedItem() != null && !this.menu_harga.getText().isEmpty()) {
+            this.connect = DatabaseConnection.getConnection();
+            try {
+                String insertData = "UPDATE menu\n" +
+                        "SET menu_name = ?,\n" +
+                        "\tkategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?)  \n" +
+                        "WHERE menu_id = (select menu_id from detail_menu where detailmenu_id= ?)";
+                this.prepare = this.connect.prepareStatement(insertData);
+                this.prepare.setString(1, this.menu_menu.getText());
+                this.prepare.setString(2, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                this.prepare.setInt(3, Integer.parseInt(this.menu_idProduk.getText()));
+                this.prepare.executeUpdate();
+                String insertData2 = "UPDATE detail_menu\n" +
+                        "SET harga_nominal = ?,\n" +
+                        "\tmenu_id = (SELECT menu_id FROM menu WHERE menu_name = ? AND kategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?)),\n" +
+                        "\tsize_id = (SELECT size_id FROM size WHERE size_name = ?)\n" +
+                        "WHERE detailmenu_id = ?";
+                this.prepare = this.connect.prepareStatement(insertData2);
+                this.prepare.setInt(1, Integer.parseInt(this.menu_harga.getText()));
+                this.prepare.setString(2, this.menu_menu.getText());
+                this.prepare.setString(3, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                this.prepare.setString(4, (String) this.menu_ukuran.getSelectionModel().getSelectedItem());
+                this.prepare.setInt(5, Integer.parseInt(this.menu_idProduk.getText()));
+                this.prepare.executeUpdate();
+                this.alert = new Alert(AlertType.INFORMATION);
+                this.alert.setTitle("Message");
+                this.alert.setHeaderText((String)null);
+                this.alert.setContentText("Successfully Updated!");
+                this.alert.showAndWait();
+                this.initializeMenu();
+                this.menuClearBtn();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            this.alert = new Alert(AlertType.ERROR);
+            this.alert.setTitle("Message");
+            this.alert.setHeaderText((String)null);
+            this.alert.setContentText("Please fill all blank fields");
+            this.alert.showAndWait();
+        }
     }
     public void menuClearBtn() {
         this.menu_idProduk.setText("");
@@ -288,9 +331,9 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
         DetailMenu selectedMenu = menu_tableView.getSelectionModel().getSelectedItem();
         if (selectedMenu != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Delete Promo");
+            alert.setTitle("Delete Menu");
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to delete this promo?");
+            alert.setContentText("Are you sure you want to delete this menu?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 String sql = "DELETE FROM detail_menu WHERE detailmenu_id =?";
@@ -305,21 +348,21 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
                     this.prepare.setString(1, selectedMenu.getMenu_name());
                     this.prepare.executeUpdate();
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
-                    successAlert.setTitle("Promo Deleted");
+                    successAlert.setTitle("Menu Deleted");
                     successAlert.setHeaderText(null);
-                    successAlert.setContentText("Promo has been deleted successfully!");
+                    successAlert.setContentText("Menu has been deleted successfully!");
                     successAlert.showAndWait();
 
-                    initializeMenu(); // refresh the table view
+                    this.initializeMenu();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         }else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Promo Selected");
+            alert.setTitle("No Menu Selected");
             alert.setHeaderText(null);
-            alert.setContentText("Please select a promo to delete!");
+            alert.setContentText("Please select a menu to delete!");
             alert.showAndWait();
         }
     }
