@@ -94,6 +94,10 @@ public class PromoScreenController implements Initializable {
     public void transaksiClick() throws IOException {
         MainApp.setRoot("transaksiScreen");
     }
+    @FXML
+    public void customerClick() throws IOException {
+        MainApp.setRoot("customerScreen");
+    }
 
     public List<String> getData(String kategori) throws SQLException {
         List<String> data = new ArrayList<>();
