@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.Date;
 import java.time.LocalDate;
@@ -293,7 +294,75 @@ public class PromoScreenController implements Initializable {
         this.promo_tanggalBerlaku.setValue(null);
         this.promo_tanggalBerakhir.setValue(null);
     }
+    @FXML
+    void updatePromo(ActionEvent event) {
+        Promo selectedPromo = promo_tableView.getSelectionModel().getSelectedItem();
+        if (selectedPromo != null) {
+            String promoId = promo_idPromo.getText();
+            String promoName = promo_namaPromo.getText();
+            String promoNominal = promo_nominal.getText();
+            LocalDate dateStart = promo_tanggalBerlaku.getValue();
+            LocalDate dateEnd = promo_tanggalBerakhir.getValue();
+            String selectedKategori = promo_kategori.getSelectionModel().getSelectedItem();
+            String selectedMenu = promo_menu.getSelectionModel().getSelectedItem();
+            String selectedMethod = promo_metode.getSelectionModel().getSelectedItem();
 
+            // Validate data
+            if (promoId.isEmpty() || promoName.isEmpty() || promoNominal.isEmpty() || dateStart == null || dateEnd == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Form Incomplete");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all fields!");
+                alert.showAndWait();
+                return;
+            }
+
+            // Update data in the database
+            String sql = "UPDATE promo SET promo_name = ?, promo_nominal = ?, date_start = ?, date_end = ?, kategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?), menu_id = (SELECT menu_id FROM menu WHERE menu_name = ?), method_id = (SELECT method_id FROM payment_method WHERE method_name = ?) WHERE promo_id = ?";
+
+            try {
+                this.connect = DatabaseConnection.getConnection();
+                this.prepare = this.connect.prepareStatement(sql);
+                this.prepare.setString(1, promoName);
+                this.prepare.setDouble(2, Double.parseDouble(promoNominal));
+                this.prepare.setDate(3, java.sql.Date.valueOf(dateStart));
+                this.prepare.setDate(4, java.sql.Date.valueOf(dateEnd));
+                this.prepare.setString(5, selectedKategori);
+                this.prepare.setString(6, selectedMenu);
+                this.prepare.setString(7, selectedMethod);
+                this.prepare.setInt(8, selectedPromo.getPromo_id());
+
+                this.prepare.executeUpdate();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Promo Updated");
+                alert.setHeaderText(null);
+                alert.setContentText("Promo has been updated successfully!");
+                alert.showAndWait();
+
+                //Clear when complete
+                promo_idPromo.clear();
+                promo_namaPromo.clear();
+                promo_nominal.clear();
+                promo_tanggalBerlaku.setValue(null);
+                promo_tanggalBerakhir.setValue(null);
+                promo_kategori.getSelectionModel().clearSelection();
+                promo_menu.getSelectionModel().clearSelection();
+                promo_metode.getSelectionModel().clearSelection();
+
+                promoShowData();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Promo Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a promo to update!");
+            alert.showAndWait();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -312,6 +381,7 @@ public class PromoScreenController implements Initializable {
             }
         });
         promo_addBtn.setOnAction(this::addPromo);
+        promo_updateBtn.setOnAction(this::updatePromo);
     }
 }
 
