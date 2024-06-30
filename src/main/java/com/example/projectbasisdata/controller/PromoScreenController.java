@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 public class PromoScreenController implements Initializable {
     @FXML
@@ -230,6 +231,44 @@ public class PromoScreenController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    //delete
+    @FXML
+    void deletePromo(ActionEvent event) {
+        Promo selectedPromo = promo_tableView.getSelectionModel().getSelectedItem();
+        if (selectedPromo!= null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Promo");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete this promo?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String sql = "DELETE FROM promo WHERE promo_id =?";
+                try {
+                    this.connect = DatabaseConnection.getConnection();
+                    this.prepare = this.connect.prepareStatement(sql);
+                    this.prepare.setInt(1, selectedPromo.getPromo_id());
+                    this.prepare.executeUpdate();
+
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Promo Deleted");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Promo has been deleted successfully!");
+                    successAlert.showAndWait();
+
+                    promoShowData(); // refresh the table view
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Promo Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a promo to delete!");
+            alert.showAndWait();
+        }
+
     }
 
     public void promoShowData() throws SQLException {
