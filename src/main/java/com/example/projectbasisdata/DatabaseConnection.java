@@ -4,7 +4,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:postgresql://localhost:5432/projectBD";
+    private static final String URL = "jdbc:postgresql://localhost:5432/BD";
     private static final String USER = "postgres";
     private static final String PASSWORD = "P4T5xi";
 
@@ -16,7 +16,8 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
-    public static Connection getConnection() throws SQLException{
+
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL,USER,PASSWORD);
     }
 }
