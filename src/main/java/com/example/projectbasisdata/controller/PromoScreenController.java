@@ -4,12 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
@@ -97,6 +93,8 @@ public class PromoScreenController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
+    private String[] kategoriList = new String[]{"Coffee", "Cream", "Add Ons"};
+    private String[] metodeList = new String[]{"Cash", "QRIS", "Debit"};
     @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
@@ -108,6 +106,43 @@ public class PromoScreenController implements Initializable {
     @FXML
     public void transaksiClick() throws IOException {
         MainApp.setRoot("transaksiScreen");
+    }
+    public List<String> getData() throws SQLException {
+        List<String> data = new ArrayList<>();
+        String query = null;
+        if (this.promo_kategori.getSelectionModel().getSelectedItem()=="Coffee") {
+            query = "select m.menu_name \n" +
+                    "from promo p right join menu m ON p.menu_id = m.menu_id\n" +
+                    "where m.kategori_id = (select kategori_id\n" +
+                    "\t\t\t\t\t  from kategori\n" +
+                    "\t\t\t\t\t  where kategori_name='COFFEE')";
+        }
+        else if (this.promo_kategori.getSelectionModel().getSelectedItem()=="Cream") {
+            query = "select m.menu_name \n" +
+                    "from promo p right join menu m ON p.menu_id = m.menu_id\n" +
+                    "where m.kategori_id = (select kategori_id\n" +
+                    "\t\t\t\t\t  from kategori\n" +
+                    "\t\t\t\t\t  where kategori_name='CREAM')";
+        }
+        else if (this.promo_kategori.getSelectionModel().getSelectedItem()=="Add Ons") {
+            query = "select m.menu_name \n" +
+                    "from promo p right join menu m ON p.menu_id = m.menu_id\n" +
+                    "where m.kategori_id = (select kategori_id\n" +
+                    "\t\t\t\t\t  from kategori\n" +
+                    "\t\t\t\t\t  where kategori_name='ADD ONS')";
+        }
+        this.connect = DatabaseConnection.getConnection();
+        try {
+             PreparedStatement statement = this.connect.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                data.add(resultSet.getString("menu_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 
     public ObservableList<Promo> promoDataList() throws SQLException {
@@ -131,6 +166,38 @@ public class PromoScreenController implements Initializable {
         }
         return listData;
     }
+    public void promoKategoriList() {
+        List<String> kategoriL = new ArrayList<>();
+        String[] var2 = this.kategoriList;
+        int var3 = var2.length;
+
+        for(int var4 = 0; var4 < var3; ++var4) {
+            String data = var2[var4];
+            kategoriL.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(kategoriL);
+        this.promo_kategori.setItems(listData);
+    }
+    public void promoMetodeList() {
+        List<String> metodeL = new ArrayList<>();
+        String[] var2 = this.metodeList;
+        int var3 = var2.length;
+
+        for(int var4 = 0; var4 < var3; ++var4) {
+            String data = var2[var4];
+            metodeL.add(data);
+        }
+
+        ObservableList listData = FXCollections.observableArrayList(metodeL);
+        this.promo_metode.setItems(listData);
+    }
+    public void promoMenuList() throws SQLException {
+        List<String> menuL = this.getData();
+
+        ObservableList listData = FXCollections.observableArrayList(menuL);
+        this.promo_menu.setItems(listData);
+    }
 
     public void promoShowData() throws SQLException {
         this.promoList = this.promoDataList();
@@ -152,6 +219,9 @@ public class PromoScreenController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        this.promoKategoriList();
+        this.promoMetodeList();
+
 
     }
 }
