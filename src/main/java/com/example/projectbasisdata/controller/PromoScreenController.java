@@ -1,11 +1,13 @@
 package com.example.projectbasisdata.controller;
 
+import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.Date;
-
+import java.time.LocalDate;
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
 import com.example.projectbasisdata.model.Promo;
@@ -76,7 +78,7 @@ public class PromoScreenController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
-    private String[] kategoriList = new String[]{"Coffee", "Cream", "Add Ons"};
+    private String[] kategoriList = new String[]{"COFFEE", "CREAM", "ADD ONS"};
     private String[] metodeList = new String[]{"Cash", "QRIS", "Debit"};
     @FXML
     public void dashboardClick() throws IOException {
@@ -95,13 +97,13 @@ public class PromoScreenController implements Initializable {
         List<String> data = new ArrayList<>();
         String query = null;
         switch (kategori) {
-            case "Coffee":
+            case "COFFEE":
                 query = "select m.menu_name from menu m where m.kategori_id = 1";
                 break;
-            case "Cream":
+            case "CREAM":
                 query = "select m.menu_name from menu m where m.kategori_id = 2";
                 break;
-            case "Add Ons":
+            case "ADD ONS":
                 query = "select m.menu_name from menu m where m.kategori_id = 3";
                 break;
         }
@@ -164,6 +166,71 @@ public class PromoScreenController implements Initializable {
             this.promo_menu.setItems(listData);
         }
     }
+    @FXML
+    void addPromo(ActionEvent event) {
+        String promoId = promo_idPromo.getText();
+        String promoName = promo_namaPromo.getText();
+        String promoNominal = promo_nominal.getText();
+        LocalDate dateStart = promo_tanggalBerlaku.getValue();
+        LocalDate dateEnd = promo_tanggalBerakhir.getValue();
+        String selectedKategori = promo_kategori.getSelectionModel().getSelectedItem();
+        String selectedMenu = promo_menu.getSelectionModel().getSelectedItem();
+        String selectedMethod = promo_metode.getSelectionModel().getSelectedItem();
+
+        // Validate data
+        if (promoId.isEmpty() || promoName.isEmpty() || promoNominal.isEmpty() || dateStart == null || dateEnd == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Form Incomplete");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all fields!");
+            alert.showAndWait();
+            return;
+        }
+
+        // Insert data into the database
+        String sql = "INSERT INTO promo (promo_id, promo_name, promo_nominal, date_start, date_end, kategori_id, menu_id, method_id) " +
+                "VALUES (?, ?, ?, ?, ?, " +
+                "(SELECT kategori_id FROM kategori WHERE kategori_name = ?), " +
+                "(SELECT menu_id FROM menu WHERE menu_name = ?), " +
+                "(SELECT method_id FROM payment_method WHERE method_name = ?))";
+
+
+
+        try {
+            this.connect = DatabaseConnection.getConnection();
+            this.prepare = this.connect.prepareStatement(sql);
+            this.prepare.setInt(1, Integer.parseInt(promoId));
+            this.prepare.setString(2, promoName);
+            this.prepare.setDouble(3, Double.parseDouble(promoNominal));
+            this.prepare.setDate(4, java.sql.Date.valueOf(dateStart));
+            this.prepare.setDate(5, java.sql.Date.valueOf(dateEnd));
+            this.prepare.setString(6, selectedKategori);
+            this.prepare.setString(7, selectedMenu);
+            this.prepare.setString(8, selectedMethod);
+
+            this.prepare.executeUpdate();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Promo Added");
+            alert.setHeaderText(null);
+            alert.setContentText("Promo has been added successfully!");
+            alert.showAndWait();
+            //Clear when complete
+            promo_idPromo.clear();
+            promo_namaPromo.clear();
+            promo_nominal.clear();
+            promo_tanggalBerlaku.setValue(null);
+            promo_tanggalBerakhir.setValue(null);
+            promo_kategori.getSelectionModel().clearSelection();
+            promo_menu.getSelectionModel().clearSelection();
+            promo_metode.getSelectionModel().clearSelection();
+
+            promoShowData();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void promoShowData() throws SQLException {
         this.promoList = this.promoDataList();
@@ -195,6 +262,7 @@ public class PromoScreenController implements Initializable {
                 e.printStackTrace();
             }
         });
+        promo_addBtn.setOnAction(this::addPromo);
     }
 }
 
