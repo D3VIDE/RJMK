@@ -281,7 +281,43 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
         this.menu_ukuran.getSelectionModel().clearSelection();
         this.menu_harga.setText("");
     }
+    @FXML
+    void deleteMenu(ActionEvent event) {
+        //done
+        DetailMenu selectedMenu = menu_tableView.getSelectionModel().getSelectedItem();
+        if (selectedMenu != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Promo");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete this promo?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String sql = "DELETE FROM detail_menu WHERE detailmenu_id =?";
+                try {
+                    this.connect = DatabaseConnection.getConnection();
+                    this.prepare = this.connect.prepareStatement(sql);
+                    this.prepare.setInt(1, selectedMenu.getDetailmenu_id());
+                    this.prepare.executeUpdate();
 
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Promo Deleted");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Promo has been deleted successfully!");
+                    successAlert.showAndWait();
+
+                    initializeMenu(); // refresh the table view
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Promo Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a promo to delete!");
+            alert.showAndWait();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.menuSizeList();
