@@ -243,19 +243,20 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
                     this.prepare.setString(1, this.menu_menu.getText());
                     this.prepare.setString(2, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
                     this.prepare.executeUpdate();
-                    String insertData2 = "INSERT INTO detail_menu (harga_nominal, menu_id, size_id)" +
-                            "VALUES (" +
+                    String insertData2 = "INSERT INTO detail_menu (detailmenu_id, harga_nominal, menu_id, size_id)" +
+                            "VALUES (?," +
                             "?," +
                             "(SELECT menu_id FROM menu WHERE menu_name = ? AND kategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?))," +
                             "(SELECT size_id FROM size WHERE size_name = ?))";
                     this.prepare = this.connect.prepareStatement(insertData2);
-                    this.prepare.setInt(1, Integer.parseInt(this.menu_harga.getText()));
-                    this.prepare.setString(2, this.menu_menu.getText());
-                    this.prepare.setString(3, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
-                    this.prepare.setString(4, (String) this.menu_ukuran.getSelectionModel().getSelectedItem());
+                    this.prepare.setInt(1, Integer.parseInt(this.menu_idProduk.getText()));
+                    this.prepare.setInt(2, Integer.parseInt(this.menu_harga.getText()));
+                    this.prepare.setString(3, this.menu_menu.getText());
+                    this.prepare.setString(4, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                    this.prepare.setString(5, (String) this.menu_ukuran.getSelectionModel().getSelectedItem());
                     this.prepare.executeUpdate();
                     this.alert = new Alert(AlertType.INFORMATION);
-                    this.alert.setTitle("Error Message");
+                    this.alert.setTitle("Message");
                     this.alert.setHeaderText((String)null);
                     this.alert.setContentText("Successfully Added!");
                     this.alert.showAndWait();
@@ -298,7 +299,11 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
                     this.prepare = this.connect.prepareStatement(sql);
                     this.prepare.setInt(1, selectedMenu.getDetailmenu_id());
                     this.prepare.executeUpdate();
-
+                    String sql2 = "DELETE FROM MENU WHERE menu_name = ?";
+                    this.connect = DatabaseConnection.getConnection();
+                    this.prepare = this.connect.prepareStatement(sql2);
+                    this.prepare.setString(1, selectedMenu.getMenu_name());
+                    this.prepare.executeUpdate();
                     Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                     successAlert.setTitle("Promo Deleted");
                     successAlert.setHeaderText(null);
