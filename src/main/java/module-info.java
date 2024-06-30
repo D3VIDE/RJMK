@@ -11,4 +11,5 @@ module com.example.projectbasisdata {
     exports com.example.projectbasisdata;
     opens com.example.projectbasisdata.controller to javafx.fxml;
     exports com.example.projectbasisdata.controller;
+    opens com.example.projectbasisdata.model to javafx.base;
 }

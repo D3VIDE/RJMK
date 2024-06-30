@@ -3,10 +3,7 @@ package com.example.projectbasisdata.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
 import com.example.projectbasisdata.model.DetailMenu;
 import com.example.projectbasisdata.model.Order;
@@ -66,6 +64,12 @@ public class PromoScreenController implements Initializable {
     @FXML
     private TableColumn<Promo, Date> promo_col_tanggalBerakhir;
     @FXML
+    private TableColumn<Promo, Integer> promo_col_kategori;
+    @FXML
+    private TableColumn<Promo, Integer> promo_col_menu;
+    @FXML
+    private TableColumn<Promo, Integer> promo_col_metode;
+    @FXML
     private TextField promo_idPromo;
     @FXML
     private TextField promo_namaPromo;
@@ -84,6 +88,16 @@ public class PromoScreenController implements Initializable {
     @FXML
     private DatePicker promo_tanggalBerakhir;
     @FXML
+    private ComboBox<?> promo_kategori;
+    @FXML
+    private ComboBox<?> promo_menu;
+    @FXML
+    private ComboBox<?> promo_metode;
+    private ObservableList<Promo> promoList;
+    private Connection connect;
+    private PreparedStatement prepare;
+    private ResultSet result;
+    @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
     }
@@ -95,8 +109,49 @@ public class PromoScreenController implements Initializable {
     public void transaksiClick() throws IOException {
         MainApp.setRoot("transaksiScreen");
     }
+
+    public ObservableList<Promo> promoDataList() throws SQLException {
+        ObservableList<Promo> listData = FXCollections.observableArrayList();
+        String sql = "SELECT p.promo_id, p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name, m.menu_name, pm.method_name\n" +
+                "FROM promo p\n" +
+                "LEFT JOIN kategori k ON p.kategori_id = k.kategori_id\n" +
+                "LEFT JOIN menu m ON p.menu_id = m.menu_id\n" +
+                "LEFT JOIN payment_method pm ON p.method_id = pm.method_id";
+        this.connect = DatabaseConnection.getConnection();
+        try {
+            this.prepare = this.connect.prepareStatement(sql);
+            this.result = this.prepare.executeQuery();
+
+            while(this.result.next()) {
+                Promo promo = new Promo(this.result.getInt("promo_id"), this.result.getString("promo_name"), this.result.getDouble("promo_nominal"), this.result.getDate("date_start"), this.result.getDate("date_end"), this.result.getString("kategori_name"),this.result.getString("menu_name"), this.result.getString("method_name"));
+                listData.add(promo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listData;
+    }
+
+    public void promoShowData() throws SQLException {
+        this.promoList = this.promoDataList();
+        this.promo_col_idPromo.setCellValueFactory(new PropertyValueFactory<>("promo_id"));
+        this.promo_col_namaPromo.setCellValueFactory(new PropertyValueFactory<>("promo_name"));
+        this.promo_col_nominalPromo.setCellValueFactory(new PropertyValueFactory<>("promo_nominal"));
+        this.promo_col_tanggalBerlaku.setCellValueFactory(new PropertyValueFactory<>("date_start"));
+        this.promo_col_tanggalBerakhir.setCellValueFactory(new PropertyValueFactory<>("date_end"));
+        this.promo_col_kategori.setCellValueFactory(new PropertyValueFactory<>("kategori_name"));
+        this.promo_col_menu.setCellValueFactory(new PropertyValueFactory<>("menu_name"));
+        this.promo_col_metode.setCellValueFactory(new PropertyValueFactory<>("method_name"));
+        this.promo_tableView.setItems(this.promoList);
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            this.promoShowData();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
