@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.example.projectbasisdata.MainApp;
+import com.example.projectbasisdata.model.DetailMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,60 +28,31 @@ import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MainScreenController implements Initializable {
+public class BingkaiProductController implements Initializable {
+    @FXML
+    private VBox bingkai_vBox;
+    @FXML
+    private Label bingkai_namaProduk;
+    @FXML
+    private Label bingkai_hargaProduk;
+    @FXML
+    private Spinner<?> bingkai_addQuantity;
+    @FXML
+    private Button bingkai_addBtn;
 
-    @FXML
-    private AnchorPane main_form;
-    @FXML
-    private Button dashboard_btn;
-    @FXML
-    private Button menu_btn;
-    @FXML
-    private Button transaksi_btn;
-    @FXML
-    private Button customer_btn;
-    @FXML
-    private Button promo_btn;
-    @FXML
-    private AnchorPane dashboard_form;
-    @FXML
-    private AreaChart<?, ?> dashboard_incomeChart;
-    @FXML
-    private AreaChart<?, ?> dashboard_customerChart;
-
-    @FXML
-    public void menuClick() throws IOException {
-        MainApp.setRoot("menuScreen");
-    }
-    @FXML
-    public void transaksiClick() throws IOException {
-        MainApp.setRoot("transaksiScreen");
-    }
-    @FXML
-    public void promoClick() throws IOException {
-        MainApp.setRoot("PromoScreen");
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
 }

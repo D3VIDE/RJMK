@@ -101,6 +101,10 @@ public class MenuScreenController implements Initializable {
     public void transaksiClick() throws IOException {
         MainApp.setRoot("transaksiScreen");
     }
+    @FXML
+    public void promoClick() throws IOException {
+        MainApp.setRoot("PromoScreen");
+    }
     public void menuSizeList() {
         List<String> sizeL = new ArrayList<>();
         String[] var2 = this.sizeList;

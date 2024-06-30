@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 import com.example.projectbasisdata.MainApp;
 import com.example.projectbasisdata.model.DetailMenu;
 import com.example.projectbasisdata.model.Order;
+import com.example.projectbasisdata.model.Promo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,15 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -47,9 +40,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class TransaksiScreenController implements Initializable {
+public class PromoScreenController implements Initializable {
     @FXML
-    private AnchorPane transaksi_form;
+    private AnchorPane promo_form;
     @FXML
     private Button dashboard_btn;
     @FXML
@@ -61,29 +54,35 @@ public class TransaksiScreenController implements Initializable {
     @FXML
     private Button promo_btn;
     @FXML
-    private GridPane menu_gridPane;
+    private TableView<Promo> promo_tableView;
     @FXML
-    private TableView<Order> transaksi_tableView;
+    private TableColumn<Promo, Integer> promo_col_idPromo;
     @FXML
-    private TableColumn<Order, String> transaksi_col_namaProduk;
+    private TableColumn<Promo, String> promo_col_namaPromo;
     @FXML
-    private TableColumn<Order, Integer> transaksi_col_jumlah;
+    private TableColumn<Promo, Double> promo_col_nominalPromo;
     @FXML
-    private TableColumn<Order, Integer> transaksi_col_harga;
+    private TableColumn<Promo, Date> promo_col_tanggalBerlaku;
     @FXML
-    private TableColumn<Order, String> transaksi_col_size;
+    private TableColumn<Promo, Date> promo_col_tanggalBerakhir;
     @FXML
-    private Label transaksi_labelTotal;
+    private TextField promo_idPromo;
     @FXML
-    private TextField transaksi_jumlahBayar;
+    private TextField promo_namaPromo;
     @FXML
-    private Label transaksi_labelKembalian;
+    private Button promo_addBtn;
     @FXML
-    private Button transaksi_bayarBtn;
+    private Button promo_updateBtn;
     @FXML
-    private Button transaksi_deleteBtn;
+    private Button promo_deleteBtn;
     @FXML
-    private Button transaksi_strukBtn;
+    private Button promo_clearBtn;
+    @FXML
+    private TextField promo_nominal;
+    @FXML
+    private DatePicker promo_tanggalBerlaku;
+    @FXML
+    private DatePicker promo_tanggalBerakhir;
     @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
@@ -93,8 +92,8 @@ public class TransaksiScreenController implements Initializable {
         MainApp.setRoot("menuScreen");
     }
     @FXML
-    public void promoClick() throws IOException {
-        MainApp.setRoot("PromoScreen");
+    public void transaksiClick() throws IOException {
+        MainApp.setRoot("transaksiScreen");
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -39,7 +39,7 @@
                               <Button fx:id="menu_btn" layoutX="13.0" layoutY="260.0" mnemonicParsing="false" onAction="#menuClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="MENU" />
                               <Button fx:id="transaksi_btn" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" onAction="#transaksiClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="TRANSAKSI" />
                               <Button fx:id="customer_btn" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="CUSTOMER" />
-                              <Button fx:id="promo_btn" layoutX="13.0" layoutY="417.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="PROMO" />
+                              <Button fx:id="promo_btn" layoutX="13.0" layoutY="417.0" mnemonicParsing="false" onAction="#promoClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@mainScreenStyle.css" text="PROMO" />
                            </children>
                         </AnchorPane>
                      </children>
