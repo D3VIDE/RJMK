@@ -61,6 +61,11 @@ public class BingkaiProductController implements Initializable {
         spin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,0);
         bingkai_addQuantity.setValueFactory(spin);
     }
+
+    public void setTransaksiScreen(TransaksiScreenController transaksiScreen) {
+        this.transaksiScreen = transaksiScreen;
+    }
+
     public void addClick() throws SQLException {
         if (bingkai_addQuantity.getValue()!=0) {
             this.connect = DatabaseConnection.getConnection();

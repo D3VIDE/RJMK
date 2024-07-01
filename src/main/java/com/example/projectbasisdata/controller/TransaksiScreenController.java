@@ -125,6 +125,7 @@ public class TransaksiScreenController implements Initializable {
                     col = 0;
                     row += 1;
                 }
+                bingkaiS.setTransaksiScreen(this);
                 menu_gridPane.add(pane,col++,row);
                 GridPane.setMargin(pane,new Insets(10));
             }catch (Exception e){
