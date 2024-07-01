@@ -72,7 +72,7 @@
                                                             <Font size="17.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label layoutX="114.0" layoutY="31.0" text="0" textAlignment="CENTER" textFill="WHITE">
+                                                      <Label fx:id="dashboard_customerNumber" layoutX="114.0" layoutY="31.0" text="0" textAlignment="CENTER" textFill="WHITE">
                                                          <font>
                                                             <Font size="26.0" />
                                                          </font>
