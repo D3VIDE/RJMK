@@ -221,15 +221,7 @@ public class PromoScreenController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Promo has been added successfully!");
             alert.showAndWait();
-            //Clear when complete
-            promo_idPromo.clear();
-            promo_namaPromo.clear();
-            promo_nominal.clear();
-            promo_tanggalBerlaku.setValue(null);
-            promo_tanggalBerakhir.setValue(null);
-            promo_kategori.getSelectionModel().clearSelection();
-            promo_menu.getSelectionModel().clearSelection();
-            promo_metode.getSelectionModel().clearSelection();
+            this.promoClearBtn();
 
             promoShowData();
 
@@ -239,7 +231,7 @@ public class PromoScreenController implements Initializable {
     }
     //delete
     @FXML
-    void deletePromo(ActionEvent event) {
+    void deletePromo() {
         Promo selectedPromo = promo_tableView.getSelectionModel().getSelectedItem();
         if (selectedPromo!= null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -344,15 +336,7 @@ public class PromoScreenController implements Initializable {
                 alert.setContentText("Promo has been updated successfully!");
                 alert.showAndWait();
 
-                //Clear when complete
-                promo_idPromo.clear();
-                promo_namaPromo.clear();
-                promo_nominal.clear();
-                promo_tanggalBerlaku.setValue(null);
-                promo_tanggalBerakhir.setValue(null);
-                promo_kategori.getSelectionModel().clearSelection();
-                promo_menu.getSelectionModel().clearSelection();
-                promo_metode.getSelectionModel().clearSelection();
+                this.promoClearBtn();
 
                 promoShowData();
 

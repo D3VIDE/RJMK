@@ -330,7 +330,7 @@ public ObservableList<DetailMenu> detailMenuList() throws SQLException {
         this.menu_harga.setText("");
     }
     @FXML
-    void deleteMenu(ActionEvent event) {
+    void deleteMenu() {
         //done
         DetailMenu selectedMenu = menu_tableView.getSelectionModel().getSelectedItem();
         if (selectedMenu != null) {
