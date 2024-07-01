@@ -1,28 +1,26 @@
 package com.example.projectbasisdata.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
-public class Order {
-    private int order_number;
+
+public class Temp_order {
+    private int temp_number;
     private Date order_date;
     private int quantity;
     private int detailmenu_id;
 
-    public Order(int order_number, Date order_date, int quantity, int detailmenu_id) {
-        this.order_number = order_number;
+    public Temp_order(int temp_number, Date order_date, int quantity, int detailmenu_id) {
+        this.temp_number = temp_number;
         this.order_date = order_date;
         this.quantity = quantity;
         this.detailmenu_id = detailmenu_id;
     }
 
-    public int getOrder_number() {
-        return order_number;
+    public int getTemp_number() {
+        return temp_number;
     }
 
-    public void setOrder_number(int order_number) {
-        this.order_number = order_number;
+    public void setTemp_number(int temp_number) {
+        this.temp_number = temp_number;
     }
 
     public Date getOrder_date() {

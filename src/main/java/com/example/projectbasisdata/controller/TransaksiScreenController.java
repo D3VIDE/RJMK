@@ -13,8 +13,10 @@ import java.util.ResourceBundle;
 import com.example.projectbasisdata.controller.BingkaiProductController;
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
+import com.example.projectbasisdata.model.Customer;
 import com.example.projectbasisdata.model.DetailMenu;
 import com.example.projectbasisdata.model.Order;
+import com.example.projectbasisdata.model.Temp_order;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -95,6 +97,10 @@ public class TransaksiScreenController implements Initializable {
 
 
     private  ObservableList<DetailMenu> bingkaiListData = FXCollections.observableArrayList();
+    private Connection connect;
+    private PreparedStatement prepare;
+    private ResultSet result;
+    private ObservableList<Temp_order> transaksiList;
 
     public ObservableList<DetailMenu> menuGetData(){
         String query = "SELECT dm.detailmenu_id, k.kategori_name, m.menu_name, s.size_name, dm.harga_nominal " +
@@ -146,6 +152,34 @@ public class TransaksiScreenController implements Initializable {
                 e.printStackTrace();
             }
         }
+    }
+    public ObservableList<Temp_order> transaksiDataList() throws SQLException {
+        ObservableList<Temp_order> listData = FXCollections.observableArrayList();
+        String sql = "select menu_name, quantity, harga_nominal*quantity, size_name\n" +
+                "from temp_order o join detail_menu dm on o.detailmenu_id=dm.detailmenu_id\n" +
+                "join menu m on dm.menu_id=m.menu_id\n" +
+                "join size s on dm.size_id=s.size_id";
+        this.connect = DatabaseConnection.getConnection();
+        try {
+            this.prepare = this.connect.prepareStatement(sql);
+            this.result = this.prepare.executeQuery();
+
+            while (this.result.next()) {
+                Temp_order temp = new Temp_order(this.result.getInt("temp_number"), this.result.getDate("order_date"), this.result.getInt("quantity"),
+                        this.result.getInt("detailmenu_id"));
+                listData.add(temp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listData;
+    }
+    public void transaksiShowData() throws SQLException {
+        this.transaksiList = this.transaksiDataList();
+        this.transaksi_col_namaProduk.setCellValueFactory(new PropertyValueFactory<>("menu_name"));
+        this.transaksi_col_jumlah.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        this.transaksi_col_harga.setCellValueFactory(new PropertyValueFactory<>("?column?"));
+        this.transaksi_col_size.setCellValueFactory(new PropertyValueFactory<>("size_name"));
     }
 
     @FXML
