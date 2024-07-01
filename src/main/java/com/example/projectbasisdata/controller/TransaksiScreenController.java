@@ -3,10 +3,12 @@ package com.example.projectbasisdata.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
+import com.example.projectbasisdata.model.Customer;
 import com.example.projectbasisdata.model.DetailMenu;
 import com.example.projectbasisdata.model.Order;
 import com.example.projectbasisdata.model.Temp_order;
@@ -183,6 +185,55 @@ public class TransaksiScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    public void transaksiDeleteBtn() {
+        Temp_order selectedOrder = transaksi_tableView.getSelectionModel().getSelectedItem();
+        if (selectedOrder!= null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Order");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete this order?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String sql = "delete from temp_order\n" +
+                        "where quantity = ? and detailmenu_id = (select detailmenu_id from detail_menu where harga_nominal = ? and menu_id=(select menu_id from menu where menu_name=?) and size_id=(select size_id from size where size_name=?) )";
+                try {
+                    this.connect = DatabaseConnection.getConnection();
+                    this.prepare = this.connect.prepareStatement(sql);
+                    this.prepare.setInt(1, selectedOrder.getQuantity());
+                    this.prepare.setInt(2, selectedOrder.getHarga_nominal());
+                    this.prepare.setString(3, selectedOrder.getMenu_name());
+                    this.prepare.setString(4, selectedOrder.getSize_name());
+                    this.prepare.executeUpdate();
+
+                    String sql2 = "delete from \"order\"\n" +
+                            "where checkclear='TEMP' and quantity = ? and detailmenu_id = (select detailmenu_id from detail_menu where harga_nominal = ? and menu_id=(select menu_id from menu where menu_name=?) and size_id=(select size_id from size where size_name=?) )";
+                    this.prepare = this.connect.prepareStatement(sql2);
+                    this.prepare.setInt(1, selectedOrder.getQuantity());
+                    this.prepare.setInt(2, selectedOrder.getHarga_nominal());
+                    this.prepare.setString(3, selectedOrder.getMenu_name());
+                    this.prepare.setString(4, selectedOrder.getSize_name());
+                    this.prepare.executeUpdate();
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Order Deleted");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Order has been deleted successfully!");
+                    successAlert.showAndWait();
+
+                    transaksiShowData();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Customer Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a customer to delete!");
+            alert.showAndWait();
+        }
+
     }
 
     public void deleteData() throws SQLException{

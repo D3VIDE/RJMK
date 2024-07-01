@@ -118,7 +118,7 @@
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="transaksi_deleteBtn" layoutX="104.0" layoutY="516.6000000000001" mnemonicParsing="false" prefHeight="38.0" prefWidth="86.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="DELETE" textFill="WHITE" AnchorPane.bottomAnchor="19.399999999999977" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="106.4">
+                                          <Button fx:id="transaksi_deleteBtn" layoutX="104.0" layoutY="516.6000000000001" mnemonicParsing="false" onAction="#transaksiDeleteBtn" prefHeight="38.0" prefWidth="86.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="DELETE" textFill="WHITE" AnchorPane.bottomAnchor="19.399999999999977" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="106.4">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
