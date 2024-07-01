@@ -3,17 +3,15 @@ package com.example.projectbasisdata.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+import com.example.projectbasisdata.controller.BingkaiProductController;
+import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
 import com.example.projectbasisdata.model.DetailMenu;
 import com.example.projectbasisdata.model.Order;
@@ -85,6 +83,70 @@ public class TransaksiScreenController implements Initializable {
     @FXML
     private Button transaksi_strukBtn;
     @FXML
+    private Button transaksi_clear;
+    @FXML
+    private TextField transaksi_NamaCustomer;
+
+    @FXML
+    private AnchorPane menu_Form2;
+
+    @FXML
+    private ScrollPane transaksi_ScrollPane;
+
+    private  ObservableList<DetailMenu> bingkaiListData = FXCollections.observableArrayList();
+
+    public ObservableList<DetailMenu> menuGetData(){
+        String query = "SELECT dm.detailmenu_id, k.kategori_name, m.menu_name, s.size_name, dm.harga_nominal " +
+                "FROM detail_menu dm " +
+                "JOIN menu m ON dm.menu_id = m.menu_id " +
+                "JOIN kategori k ON m.kategori_id = k.kategori_id " +
+                "JOIN size s ON dm.size_id = s.size_id";
+        ObservableList<DetailMenu> listData = FXCollections.observableArrayList();
+        try{
+            Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement prepare = conn.prepareStatement(query);
+            ResultSet result = prepare.executeQuery();
+            DetailMenu detail;
+            while (result.next()){
+                detail = new DetailMenu(result.getInt("detailmenu_id"),
+                        result.getString("kategori_name"),
+                        result.getString("menu_name"),
+                        result.getString("size_name"),
+                        result.getInt("harga_nominal"));
+                listData.add(detail);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listData;
+    }
+
+    public void menuDisplayCard(){
+        bingkaiListData.clear();
+        bingkaiListData.addAll(menuGetData());
+        int row = 0;
+        int col = 0;
+        menu_gridPane.getRowConstraints().clear();
+        menu_gridPane.getColumnConstraints().clear();
+        for(int i = 0;i<bingkaiListData.size();i++){
+            try {
+                FXMLLoader load = new FXMLLoader();
+                load.setLocation(getClass().getResource("/com/example/projectbasisdata/bingkaiProduct.fxml"));
+                AnchorPane pane = load.load();
+                BingkaiProductController bingkaiS = load.getController();
+                bingkaiS.setData(bingkaiListData.get(i));
+                if(col == 3){
+                    col = 0;
+                    row += 1;
+                }
+                menu_gridPane.add(pane,col++,row);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
     }
@@ -102,6 +164,6 @@ public class TransaksiScreenController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        menuDisplayCard();
     }
 }

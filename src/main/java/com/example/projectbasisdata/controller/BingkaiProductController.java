@@ -50,6 +50,32 @@ public class BingkaiProductController implements Initializable {
     private Spinner<?> bingkai_addQuantity;
     @FXML
     private Button bingkai_addBtn;
+    @FXML
+    private AnchorPane bingkai_from;
+    @FXML
+    private Label bingkai_Size;
+
+    private DetailMenu detailMenu;
+
+
+    public void setData(DetailMenu detailMenu){
+        this.detailMenu = detailMenu;
+        bingkai_namaProduk.setText(detailMenu.getMenu_name());
+        String sizeName = detailMenu.getSize_name();
+        if(sizeName.equals("Large")){
+            sizeName="L";
+        }else if(sizeName.equals("Medium")){
+            sizeName = "M";
+        }else{
+            sizeName = "S";
+        }
+        bingkai_Size.setText(sizeName);
+        bingkai_hargaProduk.setText(String.valueOf(detailMenu.getHarga_nominal()));
+    }
+
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

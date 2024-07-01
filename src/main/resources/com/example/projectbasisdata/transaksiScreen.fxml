@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.TransaksiScreenController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.TransaksiScreenController">
    <children>
       <AnchorPane fx:id="transaksi_form" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -47,18 +56,18 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane layoutX="89.0" layoutY="126.0" prefHeight="600.0" prefWidth="873.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="menu_Form2" layoutX="89.0" layoutY="126.0" prefHeight="600.0" prefWidth="873.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="65.0" layoutY="116.0" prefHeight="600.0" prefWidth="873.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="576.0" prefWidth="532.0" stylesheets="@mainScreenStyle.css" AnchorPane.bottomAnchor="9.600000000000023" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="327.20000000000005" AnchorPane.topAnchor="14.0">
+                                    <AnchorPane layoutX="14.0" layoutY="15.2" prefHeight="575.0" prefWidth="544.0" stylesheets="@mainScreenStyle.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="315.0" AnchorPane.topAnchor="15.0">
                                        <styleClass>
                                           <String fx:value="display-form" />
                                           <String fx:value="radius-form" />
                                           <String fx:value="shadow" />
                                        </styleClass>
                                        <children>
-                                          <ScrollPane layoutX="8.0" layoutY="13.0" prefHeight="552.0" prefWidth="510.0" AnchorPane.bottomAnchor="11.200000000000045" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="13.600000000000023" AnchorPane.topAnchor="13.0">
+                                          <ScrollPane fx:id="transaksi_ScrollPane" layoutX="8.0" layoutY="13.0" prefHeight="550.0" prefWidth="529.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="13.0">
                                              <content>
                                                 <GridPane fx:id="menu_gridPane" prefHeight="15.0" prefWidth="94.0">
                                                   <columnConstraints>
@@ -69,7 +78,7 @@
                                           </ScrollPane>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="557.0" layoutY="13.0" prefHeight="574.0" prefWidth="302.0" stylesheets="@mainScreenStyle.css" AnchorPane.bottomAnchor="12.600000000000023" AnchorPane.rightAnchor="14.200000000000045" AnchorPane.topAnchor="12.800000000000068">
+                                    <AnchorPane layoutX="557.0" layoutY="12.8" prefHeight="574.0" prefWidth="270.0" stylesheets="@mainScreenStyle.css" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="13.0">
                                        <styleClass>
                                           <String fx:value="display-form" />
                                           <String fx:value="shadow" />
@@ -113,21 +122,32 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="transaksi_bayarBtn" layoutX="30.0" layoutY="388.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="242.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="BAYAR" textFill="WHITE" AnchorPane.bottomAnchor="136.00000000000009" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="29.599999999999994">
+                                          <Button fx:id="transaksi_bayarBtn" layoutX="34.0" layoutY="417.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="242.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="BAYAR" textFill="WHITE" AnchorPane.bottomAnchor="107.00000000000011" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="26.799999999999955">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="transaksi_deleteBtn" layoutX="35.0" layoutY="466.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="110.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="DELETE" textFill="WHITE" AnchorPane.bottomAnchor="70.00000000000011" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="157.0">
+                                          <Button fx:id="transaksi_deleteBtn" layoutX="102.0" layoutY="500.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="87.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="DELETE" textFill="WHITE" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="102.0" AnchorPane.rightAnchor="113.0">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="transaksi_strukBtn" layoutX="155.0" layoutY="465.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="110.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="STRUK" textFill="WHITE" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="29.0">
+                                          <Button fx:id="transaksi_strukBtn" layoutX="6.2" layoutY="499.20000000000016" mnemonicParsing="false" prefHeight="38.0" prefWidth="86.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="STRUK" textFill="WHITE" AnchorPane.bottomAnchor="36.799999999999955" AnchorPane.leftAnchor="6.2" AnchorPane.rightAnchor="210.59999999999997">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
+                                          <Button fx:id="transaksi_clear" layoutX="203.0" layoutY="500.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="CLEAR" textFill="WHITE">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Button>
+                                          <Label layoutX="11.0" layoutY="361.0" prefHeight="22.0" prefWidth="70.0" text="Customer:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="transaksi_NamaCustomer" layoutX="90.0" layoutY="359.0" promptText="Nama Customer" />
                                        </children>
                                     </AnchorPane>
                                  </children>
