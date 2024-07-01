@@ -16,12 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -80,6 +75,7 @@ public class TransaksiScreenController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet result;
     private ObservableList<Temp_order> transaksiList;
+    private Alert alert;
 
     public ObservableList<DetailMenu> menuGetData(){
         String query = "SELECT dm.detailmenu_id, k.kategori_name, m.menu_name, s.size_name, dm.harga_nominal " +
@@ -172,8 +168,21 @@ public class TransaksiScreenController implements Initializable {
         }
         transaksi_labelTotal.setText("$" + total);
     }
-    public void transaksiClearBtn() {
+    public void transaksiClearBtn() throws SQLException {
+        this.connect = DatabaseConnection.getConnection();
+        try {
+            String insertData = "delete from temp_order";
+            this.prepare = this.connect.prepareStatement(insertData);
+            this.prepare.executeUpdate();
+            String insertData2 = "delete from \"order\"\n" +
+                    "where checkclear='TEMP'";
+            this.prepare = this.connect.prepareStatement(insertData2);
+            this.prepare.executeUpdate();
+            this.transaksiShowData();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void deleteData() throws SQLException{
