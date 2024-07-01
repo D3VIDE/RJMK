@@ -174,6 +174,20 @@ public class TransaksiScreenController implements Initializable {
 
     }
 
+    public void deleteData() throws SQLException{
+        String deleteSQL = "DELETE FROM temp_order";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement prepare = conn.prepareStatement(deleteSQL)) {
+            int deletedRows = prepare.executeUpdate();
+            System.out.println("Deleted rows: " + deletedRows); // Check how many rows were deleted
+            transaksiList.clear();
+            transaksi_tableView.setItems(transaksiList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Optionally, show an error dialog or log the exception to further diagnose the issue
+        }
+    }
+
     @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
