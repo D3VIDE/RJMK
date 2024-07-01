@@ -1,51 +1,30 @@
 package com.example.projectbasisdata.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import com.example.projectbasisdata.controller.BingkaiProductController;
+
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
-import com.example.projectbasisdata.model.Customer;
 import com.example.projectbasisdata.model.DetailMenu;
 import com.example.projectbasisdata.model.Order;
 import com.example.projectbasisdata.model.Temp_order;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.chart.AreaChart;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class TransaksiScreenController implements Initializable {
     @FXML
@@ -63,15 +42,15 @@ public class TransaksiScreenController implements Initializable {
     @FXML
     private GridPane menu_gridPane;
     @FXML
-    private TableView<Order> transaksi_tableView;
+    private TableView<Temp_order> transaksi_tableView;
     @FXML
-    private TableColumn<Order, String> transaksi_col_namaProduk;
+    private TableColumn<Temp_order, String> transaksi_col_namaProduk;
     @FXML
-    private TableColumn<Order, Integer> transaksi_col_jumlah;
+    private TableColumn<Temp_order, Integer> transaksi_col_jumlah;
     @FXML
-    private TableColumn<Order, Integer> transaksi_col_harga;
+    private TableColumn<Temp_order, Integer> transaksi_col_harga;
     @FXML
-    private TableColumn<Order, String> transaksi_col_size;
+    private TableColumn<Temp_order, String> transaksi_col_size;
     @FXML
     private Label transaksi_labelTotal;
     @FXML
@@ -155,7 +134,7 @@ public class TransaksiScreenController implements Initializable {
     }
     public ObservableList<Temp_order> transaksiDataList() throws SQLException {
         ObservableList<Temp_order> listData = FXCollections.observableArrayList();
-        String sql = "select menu_name, quantity, harga_nominal*quantity, size_name\n" +
+        String sql = "select menu_name, quantity, harga_nominal, size_name\n" +
                 "from temp_order o join detail_menu dm on o.detailmenu_id=dm.detailmenu_id\n" +
                 "join menu m on dm.menu_id=m.menu_id\n" +
                 "join size s on dm.size_id=s.size_id";
@@ -165,8 +144,12 @@ public class TransaksiScreenController implements Initializable {
             this.result = this.prepare.executeQuery();
 
             while (this.result.next()) {
-                Temp_order temp = new Temp_order(this.result.getInt("temp_number"), this.result.getDate("order_date"), this.result.getInt("quantity"),
-                        this.result.getInt("detailmenu_id"));
+                Temp_order temp = new Temp_order(
+                        this.result.getString("menu_name"),
+                        this.result.getInt("quantity"),
+                        this.result.getInt("harga_nominal"),
+                        this.result.getString("size_name")
+                );
                 listData.add(temp);
             }
         } catch (Exception e) {
@@ -178,8 +161,9 @@ public class TransaksiScreenController implements Initializable {
         this.transaksiList = this.transaksiDataList();
         this.transaksi_col_namaProduk.setCellValueFactory(new PropertyValueFactory<>("menu_name"));
         this.transaksi_col_jumlah.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        this.transaksi_col_harga.setCellValueFactory(new PropertyValueFactory<>("?column?"));
+        this.transaksi_col_harga.setCellValueFactory(new PropertyValueFactory<>("harga_nominal"));
         this.transaksi_col_size.setCellValueFactory(new PropertyValueFactory<>("size_name"));
+        this.transaksi_tableView.setItems(transaksiList);
     }
 
     @FXML
@@ -201,5 +185,10 @@ public class TransaksiScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menuDisplayCard();
+        try {
+            transaksiShowData();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
