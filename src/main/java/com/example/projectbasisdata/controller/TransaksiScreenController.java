@@ -93,6 +93,7 @@ public class TransaksiScreenController implements Initializable {
     @FXML
     private ScrollPane transaksi_ScrollPane;
 
+
     private  ObservableList<DetailMenu> bingkaiListData = FXCollections.observableArrayList();
 
     public ObservableList<DetailMenu> menuGetData(){
@@ -140,6 +141,7 @@ public class TransaksiScreenController implements Initializable {
                     row += 1;
                 }
                 menu_gridPane.add(pane,col++,row);
+                GridPane.setMargin(pane,new Insets(10));
             }catch (Exception e){
                 e.printStackTrace();
             }
