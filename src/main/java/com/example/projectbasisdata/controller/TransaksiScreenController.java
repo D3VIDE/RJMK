@@ -96,6 +96,10 @@ public class TransaksiScreenController implements Initializable {
     public void promoClick() throws IOException {
         MainApp.setRoot("PromoScreen");
     }
+    @FXML
+    public void customerClick() throws IOException {
+        MainApp.setRoot("customerScreen");
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

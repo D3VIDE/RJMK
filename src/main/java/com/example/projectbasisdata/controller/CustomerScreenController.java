@@ -14,7 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
+import com.example.projectbasisdata.model.Customer;
+import com.example.projectbasisdata.model.DetailMenu;
+import com.example.projectbasisdata.model.Menu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,11 +48,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public class MainScreenController implements Initializable {
-
+public class CustomerScreenController implements Initializable {
     @FXML
-    private AnchorPane main_form;
+    private AnchorPane customer_form;
     @FXML
     private Button dashboard_btn;
     @FXML
@@ -60,12 +67,35 @@ public class MainScreenController implements Initializable {
     @FXML
     private Button promo_btn;
     @FXML
-    private AnchorPane dashboard_form;
+    private TableView<Customer> customer_tableView;
     @FXML
-    private AreaChart<?, ?> dashboard_incomeChart;
+    private TableColumn<Customer, Integer> customer_col_idCustomer;
     @FXML
-    private AreaChart<?, ?> dashboard_customerChart;
-
+    private TableColumn<Customer, String> customer_col_namaCustomer;
+    @FXML
+    private TableColumn<Customer, String> customer_col_jenisCustomer;
+    @FXML
+    private TableColumn<Customer, Integer> customer_col_totalPoint;
+    @FXML
+    private TextField customer_idCustomer;
+    @FXML
+    private TextField customer_nama;
+    @FXML
+    private Button customer_addBtn;
+    @FXML
+    private Button customer_updateBtn;
+    @FXML
+    private Button customer_deleteBtn;
+    @FXML
+    private Button customer_clearBtn;
+    @FXML
+    private ComboBox<?> customer_jenis;
+    @FXML
+    private TextField customer_totalPoint;
+    @FXML
+    public void dashboardClick() throws IOException {
+        MainApp.setRoot("mainScreen");
+    }
     @FXML
     public void menuClick() throws IOException {
         MainApp.setRoot("menuScreen");
@@ -78,13 +108,8 @@ public class MainScreenController implements Initializable {
     public void promoClick() throws IOException {
         MainApp.setRoot("PromoScreen");
     }
-    @FXML
-    public void customerClick() throws IOException {
-        MainApp.setRoot("customerScreen");
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
 }
