@@ -71,11 +71,12 @@ public class BingkaiProductController implements Initializable {
             this.connect = DatabaseConnection.getConnection();
             try {
                 this.statement = this.connect.createStatement();
-                String insertData = "insert into \"order\"(order_date,quantity,detailmenu_id) values (\n" +
-                        "\tcurrent_date,\n" +
-                        "\t?,\n" +
-                        "\t(select detailmenu_id from detail_menu where harga_nominal = ? and menu_id=(select menu_id from menu where menu_name= ?) and size_id=(select size_id from size where size_name= ?))\n" +
-                        ")";
+                String insertData = "insert into \"order\"(order_date,quantity,detailmenu_id, checkclear) values (\n" +
+                        "                        current_date,\n" +
+                        "\t\t\t\t\t\t?,\n" +
+                        "                        (select detailmenu_id from detail_menu where harga_nominal = ? and menu_id=(select menu_id from menu where menu_name= ?) and size_id=(select size_id from size where size_name= ?)),\n" +
+                        "\t\t\t\t\t\t'TEMP'\n" +
+                        "                        )";
                 this.prepare = this.connect.prepareStatement(insertData);
                 this.prepare.setInt(1, Integer.parseInt(String.valueOf(this.bingkai_addQuantity.getValue())));
                 this.prepare.setInt(2, Integer.parseInt(this.bingkai_hargaProduk.getText()));

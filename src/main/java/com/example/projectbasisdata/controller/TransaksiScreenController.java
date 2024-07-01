@@ -171,6 +171,8 @@ public class TransaksiScreenController implements Initializable {
             total += order.getTotal_price();
         }
         transaksi_labelTotal.setText("$" + total);
+    }
+    public void transaksiClearBtn() {
 
     }
 
