@@ -165,6 +165,13 @@ public class TransaksiScreenController implements Initializable {
         this.transaksi_col_harga.setCellValueFactory(new PropertyValueFactory<>("harga_nominal"));
         this.transaksi_col_size.setCellValueFactory(new PropertyValueFactory<>("size_name"));
         this.transaksi_tableView.setItems(transaksiList);
+
+        int total = 0;
+        for (Temp_order order : transaksiList) {
+            total += order.getTotal_price();
+        }
+        transaksi_labelTotal.setText("$" + total);
+
     }
 
     @FXML

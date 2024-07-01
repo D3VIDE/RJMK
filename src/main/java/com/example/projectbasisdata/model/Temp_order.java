@@ -32,4 +32,7 @@ public class Temp_order {
     public String getSize_name() {
         return size_name;
     }
+    public int getTotal_price() {
+        return harga_nominal * quantity;
+    }
 }
