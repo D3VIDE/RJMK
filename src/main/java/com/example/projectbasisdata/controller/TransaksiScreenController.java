@@ -3,6 +3,8 @@ package com.example.projectbasisdata.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -70,6 +72,8 @@ public class TransaksiScreenController implements Initializable {
 
     @FXML
     private ScrollPane transaksi_ScrollPane;
+    @FXML
+    private ComboBox<String> transaksi_metode;
 
 
     private  ObservableList<DetailMenu> bingkaiListData = FXCollections.observableArrayList();
@@ -78,6 +82,7 @@ public class TransaksiScreenController implements Initializable {
     private ResultSet result;
     private ObservableList<Temp_order> transaksiList;
     private Alert alert;
+    private String[] metodeList = new String[]{"Cash", "QRIS", "Debit"};
 
     public ObservableList<DetailMenu> menuGetData(){
         String query = "SELECT dm.detailmenu_id, k.kategori_name, m.menu_name, s.size_name, dm.harga_nominal " +
@@ -228,9 +233,9 @@ public class TransaksiScreenController implements Initializable {
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Customer Selected");
+            alert.setTitle("No Order Selected");
             alert.setHeaderText(null);
-            alert.setContentText("Please select a customer to delete!");
+            alert.setContentText("Please select an order to delete!");
             alert.showAndWait();
         }
 
@@ -248,6 +253,11 @@ public class TransaksiScreenController implements Initializable {
             e.printStackTrace();
             // Optionally, show an error dialog or log the exception to further diagnose the issue
         }
+    }
+    public void transaksiMetodeList() {
+        List<String> metodeL = Arrays.asList(metodeList);
+        ObservableList<String> listData = FXCollections.observableArrayList(metodeL);
+        this.transaksi_metode.setItems(listData);
     }
 
     @FXML
@@ -274,5 +284,6 @@ public class TransaksiScreenController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        this.transaksiMetodeList();
     }
 }
