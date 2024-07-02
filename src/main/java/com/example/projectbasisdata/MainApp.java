@@ -9,6 +9,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainApp extends Application {
+
+
+    /*
+    MADE BY:
+    >Richie
+    >Jose
+    >Ken
+    >Mikha
+     */
     private static Scene scene;
     @Override
     public void start(Stage stage) throws IOException {

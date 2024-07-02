@@ -89,6 +89,10 @@ public class MainScreenController implements Initializable {
     public void customerClick() throws IOException {
         MainApp.setRoot("customerScreen");
     }
+
+    /*
+    Dashboard Utama Yang Menampikan Semua Report
+     */
     public void dashboardDisplayCustomer() throws SQLException {
         String sql = "SELECT COUNT(customer_id) FROM customer";
         this.connect = DatabaseConnection.getConnection();

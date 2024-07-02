@@ -100,6 +100,7 @@ public class CustomerScreenController implements Initializable {
     private Statement statement;
     private Alert alert;
     private String[] jenisList = new String[]{"UMUM", "MEMBER"};
+
     @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
@@ -116,6 +117,8 @@ public class CustomerScreenController implements Initializable {
     public void promoClick() throws IOException {
         MainApp.setRoot("PromoScreen");
     }
+
+    //untuk mendapatkan semua data dari customer kemudian dijadikan array bentuk list
     public ObservableList<Customer> customerDataList() throws SQLException {
         ObservableList<Customer> listData = FXCollections.observableArrayList();
         String sql = "select * from customer order by customer_id";
@@ -134,6 +137,7 @@ public class CustomerScreenController implements Initializable {
         }
         return listData;
     }
+    //digunakan untuk menampilkan data
     public void customerShowData() throws SQLException {
         this.customerList = this.customerDataList();
         this.customer_col_idCustomer.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
@@ -142,6 +146,8 @@ public class CustomerScreenController implements Initializable {
         this.customer_col_totalPoint.setCellValueFactory(new PropertyValueFactory<>("member_total_point"));
         this.customer_tableView.setItems(this.customerList);
     }
+
+    //untuk combo box
     public void customerJenisList() {
         List<String> jenisL = new ArrayList<>();
         String[] var2 = this.jenisList;
@@ -155,6 +161,7 @@ public class CustomerScreenController implements Initializable {
         ObservableList listData = FXCollections.observableArrayList(jenisL);
         this.customer_jenis.setItems(listData);
     }
+    //untuk menambahkan customer yang bertipe "UMUM"/"MEMBER"
     public void customerAddBtn() throws SQLException {
         if (!this.customer_idCustomer.getText().isEmpty() && !this.customer_nama.getText().isEmpty() && this.customer_jenis.getSelectionModel().getSelectedItem() != null) {
             String checkCustomerID = "SELECT customer_id FROM customer WHERE customer_id = " + this.customer_idCustomer.getText();
@@ -205,12 +212,16 @@ public class CustomerScreenController implements Initializable {
             this.alert.showAndWait();
         }
     }
+
+    //clear semua
     public void customerClearBtn() {
         this.customer_idCustomer.setText("");
         this.customer_nama.setText("");
         this.customer_jenis.getSelectionModel().clearSelection();
         this.customer_totalPoint.setText("");
     }
+
+    //mengupdate value yang ada di db customer
     public void customerUpdateBtn() throws SQLException {
         if (!this.customer_idCustomer.getText().isEmpty() && !this.customer_nama.getText().isEmpty() && this.customer_jenis.getSelectionModel().getSelectedItem() != null) {
             this.connect = DatabaseConnection.getConnection();

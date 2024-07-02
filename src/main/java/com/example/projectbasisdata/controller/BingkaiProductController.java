@@ -38,7 +38,7 @@ public class BingkaiProductController implements Initializable {
     private PreparedStatement prepare;
     private TransaksiScreenController transaksiScreen;
 
-
+    //digunakan untuk setdata bingkai produk//
     public void setData(DetailMenu detailMenu){
         this.detailMenu = detailMenu;
         bingkai_namaProduk.setText(detailMenu.getMenu_name());
@@ -57,15 +57,16 @@ public class BingkaiProductController implements Initializable {
     private SpinnerValueFactory<Integer> spin;
 
     private int jumblah;
+    //spinner nya untuk mengatur quantity
     public void setJumblah(){
         spin = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100,0);
         bingkai_addQuantity.setValueFactory(spin);
     }
-
+//menghubungkan dengan transaksi screen
     public void setTransaksiScreen(TransaksiScreenController transaksiScreen) {
         this.transaksiScreen = transaksiScreen;
     }
-
+//button add menjalankan fungsi berikut
     public void addClick() throws SQLException {
         if (bingkai_addQuantity.getValue()!=0) {
             this.connect = DatabaseConnection.getConnection();
@@ -108,6 +109,7 @@ public class BingkaiProductController implements Initializable {
             this.alert.showAndWait();
         }
     }
+    //fungsi clear menghapus semua
     public void clear() {
         this.bingkai_addQuantity.getValueFactory().setValue(0);
     }

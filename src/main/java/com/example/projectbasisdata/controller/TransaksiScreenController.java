@@ -446,7 +446,7 @@ public class TransaksiScreenController implements Initializable {
     }
 
 
-    //method untuk mendapatkan Na,e
+    //method untuk mendapatkan Name
     private int getPaymentMethodIdByName(String methodName) {
         String query = "SELECT method_id FROM payment_method WHERE method_name = ?";
         int methodId = -1;
