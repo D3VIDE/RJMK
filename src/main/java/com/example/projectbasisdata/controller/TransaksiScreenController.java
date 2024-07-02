@@ -303,6 +303,7 @@ public class TransaksiScreenController implements Initializable {
     }
 
     private int getCustomerIdByName(String customerName) {
+        //
         String selectQuery = "SELECT customer_id FROM customer WHERE customer_name = ?";
         String insertQuery = "INSERT INTO customer (customer_name, jenis_customer, member_total_point) VALUES (?, ?, ?)";
         int customerId = -1;
