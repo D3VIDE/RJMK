@@ -7,7 +7,7 @@ public class Temp_order {
     private int quantity;
     private int harga_nominal;
     private String size_name;
-
+    private String kategori_name;
     // Constructor
     public Temp_order(String menu_name, int quantity, int harga, String size_name) {
         this.menu_name = menu_name;
@@ -34,5 +34,9 @@ public class Temp_order {
     }
     public int getTotal_price() {
         return harga_nominal * quantity;
+    }
+
+    public String getKategori_name() {
+        return kategori_name;
     }
 }

@@ -15,7 +15,17 @@ public class Promo {
     private String method_name;
 
 
-    public Promo(int promo_id, String promo_name, double promo_nominal, Date date_start, Date date_end, String kategori_name, String menu_name, String method_name){
+    public Promo(String promo_name, double promo_nominal, Date date_start, Date date_end, String kategori_name, String menu_name, String method_name){
+
+        this.promo_name = promo_name;
+        this.promo_nominal = promo_nominal;
+        this.date_start = date_start;
+        this.date_end = date_end;
+        this.kategori_name = kategori_name;
+        this.menu_name = menu_name;
+        this.method_name = method_name;
+
+    }  public Promo(int promo_id ,String promo_name, double promo_nominal, Date date_start, Date date_end, String kategori_name, String menu_name, String method_name){
         this.promo_id = promo_id;
         this.promo_name = promo_name;
         this.promo_nominal = promo_nominal;
@@ -26,13 +36,8 @@ public class Promo {
         this.method_name = method_name;
     }
 
-    public int getPromo_id() {
-        return promo_id;
-    }
 
-    public void setPromo_id(int promo_id) {
-        this.promo_id = promo_id;
-    }
+
 
     public String getPromo_name() {
         return promo_name;
@@ -88,5 +93,13 @@ public class Promo {
 
     public void setMethod_name(String method_name) {
         this.method_name = method_name;
+    }
+
+    public int getPromo_id() {
+        return promo_id;
+    }
+
+    public void setPromo_id(int promo_id) {
+        this.promo_id = promo_id;
     }
 }
