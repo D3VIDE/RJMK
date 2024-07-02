@@ -271,7 +271,10 @@ public class TransaksiScreenController implements Initializable {
         if (selectedOrder != null) {
             Promo promo = getPromoForMenu(selectedOrder.getKategori_name(), selectedOrder.getMenu_name(), selectedMethod);
             if (promo != null) {
-                totalHarga -= (int) promo.getPromo_nominal();
+                double discountPercentage = promo.getPromo_nominal();
+                int discountAmount = (int) (totalHarga * discountPercentage);
+                totalHarga -= discountAmount;
+                updateTotalLabel(totalHarga);
                 Alert promoAlert = new Alert(Alert.AlertType.INFORMATION);
                 promoAlert.setTitle("Promotion Applied");
                 promoAlert.setHeaderText(null);
