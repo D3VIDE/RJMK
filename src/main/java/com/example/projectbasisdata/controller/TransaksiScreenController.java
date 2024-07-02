@@ -277,7 +277,7 @@ public class TransaksiScreenController implements Initializable {
                 double discountPercentage = promo.getPromo_nominal();
                 int discountAmount = (int) (totalHarga * discountPercentage);
                 totalHarga -= discountAmount;
-                updateTotalLabel(totalHarga);
+//                updateTotalLabel(totalHarga);
                 Alert promoAlert = new Alert(Alert.AlertType.INFORMATION);
                 promoAlert.setTitle("Promotion Applied");
                 promoAlert.setHeaderText(null);
@@ -343,7 +343,8 @@ public class TransaksiScreenController implements Initializable {
                 "JOIN kategori k ON p.kategori_id = k.kategori_id " +
                 "JOIN menu m ON p.menu_id = m.menu_id " +
                 "JOIN payment_method pm ON p.method_id = pm.method_id " +
-                "WHERE k.kategori_name = ? AND m.menu_name = ? AND pm.method_name = ? AND ? BETWEEN p.date_start AND p.date_end";
+                "WHERE (k.kategori_name = ? OR m.menu_name = ? OR pm.method_name = ?) " +
+                "AND ? BETWEEN p.date_start AND p.date_end";;
         Promo promo = null;
         try {
             connect = DatabaseConnection.getConnection();
@@ -422,7 +423,6 @@ public class TransaksiScreenController implements Initializable {
 
         return customerId;
     }
-
     public void transaksiMetodeList() {
         List<String> metodeL = Arrays.asList(metodeList);
         ObservableList<String> listData = FXCollections.observableArrayList(metodeL);
