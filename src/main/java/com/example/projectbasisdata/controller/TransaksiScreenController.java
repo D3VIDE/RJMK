@@ -272,7 +272,7 @@ public class TransaksiScreenController implements Initializable {
 
         Temp_order selectedOrder = transaksi_tableView.getSelectionModel().getSelectedItem();
         if (selectedOrder != null) {
-            Promo promo = getPromoForMenu(selectedOrder.getKategori_name(), selectedOrder.getMenu_name(), selectedMethod);
+            Promo promo = getPromoForKategori(selectedOrder.getKategori_name());
             if (promo != null) {
                 totalHarga -= (int) promo.getPromo_nominal();
                 Alert promoAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -334,13 +334,39 @@ public class TransaksiScreenController implements Initializable {
 
 
     }
+    private Promo getPromoForKategori(String kategoriName) {
+        String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name\n" +
+                "                FROM promo p\n" +
+                "                JOIN kategori k ON p.kategori_id = k.kategori_id\n" +
+                "where k.kategori_name=? and ? BETWEEN p.date_start AND p.date_end";
+        Promo promo = null;
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(query);
+            prepare.setString(1, kategoriName);
+            prepare.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+            result = prepare.executeQuery();
+            if (result.next()) {
+                promo = new Promo(
+                        result.getString("promo_name"),
+                        result.getDouble("promo_nominal"),
+                        result.getDate("date_start"),
+                        result.getDate("date_end"),
+                        result.getString("kategori_name")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return promo;
+    }
     private Promo getPromoForMenu(String kategoriName, String menuName, String methodName) {
         String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name, m.menu_name, pm.method_name " +
                 "FROM promo p " +
                 "JOIN kategori k ON p.kategori_id = k.kategori_id " +
                 "JOIN menu m ON p.menu_id = m.menu_id " +
                 "JOIN payment_method pm ON p.method_id = pm.method_id " +
-                "WHERE k.kategori_name = ? AND m.menu_name = ? AND pm.method_name = ? AND ? BETWEEN p.date_start AND p.date_end";
+                "WHERE (k.kategori_name = ? OR m.menu_name = ? OR pm.method_name = ?) AND ? BETWEEN p.date_start AND p.date_end";
         Promo promo = null;
         try {
             connect = DatabaseConnection.getConnection();
@@ -348,7 +374,39 @@ public class TransaksiScreenController implements Initializable {
             prepare.setString(1, kategoriName);
             prepare.setString(2, menuName);
             prepare.setString(3, methodName);
-            prepare.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+            prepare.setDate(4, Date.valueOf(java.time.LocalDate.now()));
+            result = prepare.executeQuery();
+            if (result.next()) {
+                promo = new Promo(
+                        result.getString("promo_name"),
+                        result.getDouble("promo_nominal"),
+                        result.getDate("date_start"),
+                        result.getDate("date_end"),
+                        result.getString("kategori_name"),
+                        result.getString("menu_name"),
+                        result.getString("method_name")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return promo;
+    }
+    private Promo getPromoForMethod(String kategoriName, String menuName, String methodName) {
+        String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name, m.menu_name, pm.method_name " +
+                "FROM promo p " +
+                "JOIN kategori k ON p.kategori_id = k.kategori_id " +
+                "JOIN menu m ON p.menu_id = m.menu_id " +
+                "JOIN payment_method pm ON p.method_id = pm.method_id " +
+                "WHERE (k.kategori_name = ? OR m.menu_name = ? OR pm.method_name = ?) AND ? BETWEEN p.date_start AND p.date_end";
+        Promo promo = null;
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(query);
+            prepare.setString(1, kategoriName);
+            prepare.setString(2, menuName);
+            prepare.setString(3, methodName);
+            prepare.setDate(4, Date.valueOf(java.time.LocalDate.now()));
             result = prepare.executeQuery();
             if (result.next()) {
                 promo = new Promo(
