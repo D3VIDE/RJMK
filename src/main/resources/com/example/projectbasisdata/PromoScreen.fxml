@@ -119,11 +119,6 @@
                                     <Button fx:id="promo_updateBtn" layoutX="175.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
                                     <Button fx:id="promo_deleteBtn" layoutX="287.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
                                     <Button fx:id="promo_clearBtn" layoutX="403.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
-
-                                    <Button fx:id="promo_updateBtn" layoutX="175.0" layoutY="156.0" mnemonicParsing="false" onAction="#updatePromo" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
-                                    <Button fx:id="promo_deleteBtn" layoutX="287.0" layoutY="156.0" mnemonicParsing="false" onAction="#deletePromo" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
-                                    <Button fx:id="promo_clearBtn" layoutX="403.0" layoutY="156.0" mnemonicParsing="false" onAction="#promoClearBtn" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
-
                                     <TextField fx:id="promo_nominal" layoutX="129.0" layoutY="97.0" promptText="\%" />
                                     <DatePicker fx:id="promo_tanggalBerlaku" layoutX="658.0" layoutY="23.0" />
                                     <Label layoutX="540.0" layoutY="64.0" text="Tanggal Berakhir:">

@@ -308,7 +308,12 @@ public class TransaksiScreenController implements Initializable {
             this.prepare = this.connect.prepareStatement(query);
             this.prepare.executeUpdate();
 
-            // Clear temporary order data after successful insertion
+            int pointEarned = totalHarga;
+
+            //add point to customer//
+            addPointsToCustomer(customerId,pointEarned);
+
+            //clear//
             transaksiClearBtn();
 
             // Show success message
@@ -346,6 +351,8 @@ public class TransaksiScreenController implements Initializable {
 
 
     }
+
+    //promo (not done)
     private Promo getPromoForKategori(String kategoriName) {
         String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name\n" +
                 "                FROM promo p\n" +
@@ -437,6 +444,9 @@ public class TransaksiScreenController implements Initializable {
         }
         return promo;
     }
+
+
+    //method untuk mendapatkan Na,e
     private int getPaymentMethodIdByName(String methodName) {
         String query = "SELECT method_id FROM payment_method WHERE method_name = ?";
         int methodId = -1;
@@ -454,6 +464,7 @@ public class TransaksiScreenController implements Initializable {
         return methodId;
     }
 
+    //Method untuk mendapatkan cust ID
     private int getCustomerIdByName(String customerName) {
         //
         String selectQuery = "SELECT customer_id FROM customer WHERE customer_name = ?";
@@ -494,6 +505,19 @@ public class TransaksiScreenController implements Initializable {
         transaksi_labelTotal.setText("$" + newTotal);
     }
 
+    //Method add points
+    private void addPointsToCustomer(int customerId, int points) {
+        String updateQuery = "UPDATE customer SET member_total_point = member_total_point + ? WHERE customer_id = ?";
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(updateQuery);
+            prepare.setInt(1, points);
+            prepare.setInt(2, customerId);
+            prepare.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public void transaksiMetodeList() {
