@@ -254,6 +254,11 @@ public class TransaksiScreenController implements Initializable {
             // Optionally, show an error dialog or log the exception to further diagnose the issue
         }
     }
+
+    public void doTransaksi(){
+        String query = "SELECT * FROM order";
+
+    }
     public void transaksiMetodeList() {
         List<String> metodeL = Arrays.asList(metodeList);
         ObservableList<String> listData = FXCollections.observableArrayList(metodeL);

@@ -123,9 +123,9 @@
                                        </font>
                                     </Label>
                                     <DatePicker fx:id="promo_tanggalBerakhir" layoutX="658.0" layoutY="61.0" />
-                                    <ComboBox fx:id="promo_kategori" layoutX="372.0" layoutY="23.0" prefWidth="150.0" />
-                                    <ComboBox fx:id="promo_menu" layoutX="372.0" layoutY="62.0" prefWidth="150.0" />
-                                    <ComboBox fx:id="promo_metode" layoutX="372.0" layoutY="97.0" prefWidth="150.0" />
+                                    <ComboBox fx:id="promo_kategori" layoutX="372.0" layoutY="23.0" prefWidth="150.0" promptText="Kategori" />
+                                    <ComboBox fx:id="promo_menu" layoutX="372.0" layoutY="62.0" prefWidth="150.0" promptText="Menu" />
+                                    <ComboBox fx:id="promo_metode" layoutX="372.0" layoutY="97.0" prefWidth="150.0" promptText="Metode" />
                                     <Label layoutX="296.0" layoutY="25.0" text="Kategori:">
                                        <font>
                                           <Font size="14.0" />
