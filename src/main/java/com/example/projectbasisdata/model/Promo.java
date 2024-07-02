@@ -43,7 +43,13 @@ public class Promo {
         this.kategori_name = kategori_name;
     }
 
-
+    public Promo(double promoNominal, String promoName, java.sql.Date dateStart, java.sql.Date dateEnd, String kategoriName, String menuName) {
+        this.promo_nominal = promoNominal;
+        this.promo_name = promoName;
+        this.date_start = dateStart;
+        this.date_end = dateEnd;
+        this.kategori_name = kategoriName;
+    }
 
 
     public String getPromo_name() {
@@ -108,5 +114,21 @@ public class Promo {
 
     public void setPromo_id(int promo_id) {
         this.promo_id = promo_id;
+    }
+
+    public String getMenuName() {
+        return menu_name;
+    }
+
+    public String getKategoriName() {
+        return kategori_name;
+    }
+
+    public double getPromoNominal() {
+        return promo_nominal;
+    }
+
+    public String getPromoName() {
+        return promo_name;
     }
 }

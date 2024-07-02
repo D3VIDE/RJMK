@@ -3,10 +3,9 @@ package com.example.projectbasisdata.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
 
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
@@ -23,7 +22,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 public class TransaksiScreenController implements Initializable {
-    @FXML
     private AnchorPane transaksi_form;
     @FXML
     private Button dashboard_btn;
@@ -248,6 +246,9 @@ public class TransaksiScreenController implements Initializable {
 
     }
 
+
+
+
     public void deleteData() throws SQLException{
         String deleteSQL = "DELETE FROM temp_order";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -260,34 +261,67 @@ public class TransaksiScreenController implements Initializable {
             e.printStackTrace();
             // Optionally, show an error dialog or log the exception to further diagnose the issue
         }
+    }   private boolean promoApplies(Promo promo) {
+        for (Temp_order order : transaksiList) {
+            if (order.getMenu_name().equals(promo.getMenuName()) || order.getKategori_name().equals(promo.getKategoriName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<Promo> getApplicablePromos() {
+        List<Promo> promos = new ArrayList<>();
+//        String query =
+
+        String query = "SELECT p.promo_nominal, p.promo_name, p.date_start, p.date_end, k.kategori_name, m.menu_name " +
+                "FROM promo p " +
+                "JOIN kategori k ON p.kategori_id = k.kategori_id " +
+                "JOIN menu m ON p.menu_id = m.menu_id " +
+                "JOIN payment_method pm ON p.method_id = pm.method_id " +
+                "WHERE (? BETWEEN p.date_start AND p.date_end) " +
+                "AND pm.method_name = ?";
+
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(query);
+            prepare.setDate(1, Date.valueOf(LocalDate.now()));
+            prepare.setString(2, transaksi_metode.getSelectionModel().getSelectedItem());
+            result = prepare.executeQuery();
+            while (result.next()) {
+                promos.add(new Promo(result.getDouble("promo_nominal"), result.getString("promo_name"),
+                        result.getDate("date_start"), result.getDate("date_end"), result.getString("kategori_name"),
+                        result.getString("menu_name")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return promos;
     }
 
     public void doTransaksi(){
         int totalHarga = Integer.parseInt(transaksi_labelTotal.getText().replace("$", ""));
         int jumlahBayar = Integer.parseInt(transaksi_jumlahBayar.getText());
+
+
+
+        List<Promo> applicablePromos = getApplicablePromos();
+
+        for (Promo promo : applicablePromos) {
+            if (promoApplies(promo)) {
+                double discount = promo.getPromoNominal();
+                totalHarga = (int) ( totalHarga - (totalHarga * discount));
+            }
+        }
         int kembalian = jumlahBayar - totalHarga;
         transaksi_labelKembalian.setText("$" + kembalian);
 
-        // Retrieve customer ID based on the customer name entered
         String customerName = transaksi_NamaCustomer.getText();
         int customerId = getCustomerIdByName(customerName);
 
-        // Retrieve selected payment method ID
         String selectedMethod = transaksi_metode.getSelectionModel().getSelectedItem();
         int methodId = getPaymentMethodIdByName(selectedMethod);
 
-        Temp_order selectedOrder = transaksi_tableView.getSelectionModel().getSelectedItem();
-        if (selectedOrder != null) {
-            Promo promo = getPromoForKategori(selectedOrder.getKategori_name());
-            if (promo != null) {
-                totalHarga -= (int) promo.getPromo_nominal();
-                Alert promoAlert = new Alert(Alert.AlertType.INFORMATION);
-                promoAlert.setTitle("Promotion Applied");
-                promoAlert.setHeaderText(null);
-                promoAlert.setContentText("Promotion '" + promo.getPromo_name() + "' applied! New total: $" + totalHarga);
-                promoAlert.showAndWait();
-            }
-        }
 
         // Insert data into detail_order table
         String insertQuery = "INSERT INTO detail_order (harga_total, harga_bayar, kembalian, customer_id, method_id) VALUES (?, ?, ?, ?, ?)";
@@ -308,19 +342,20 @@ public class TransaksiScreenController implements Initializable {
             this.prepare = this.connect.prepareStatement(query);
             this.prepare.executeUpdate();
 
-            int pointEarned = totalHarga;
+            int pointEarned = totalHarga ;//10 -->Bagi 10 jika ingin 10$ = 1 point;
 
             //add point to customer//
             addPointsToCustomer(customerId,pointEarned);
 
-            //clear//
-            transaksiClearBtn();
+//            //clear//
+//            transaksiClearBtn();
 
             // Show success message
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Transaction Successful");
             alert.setHeaderText(null);
-            alert.setContentText("The transaction was completed successfully!");
+            alert.setContentText("The transaction was completed successfully! \n" +
+                    "Kembalian: $"+kembalian);
             alert.showAndWait();
 
         } catch (SQLException e) {
@@ -352,99 +387,7 @@ public class TransaksiScreenController implements Initializable {
 
     }
 
-    //promo (not done)
-    private Promo getPromoForKategori(String kategoriName) {
-        String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name\n" +
-                "                FROM promo p\n" +
-                "                JOIN kategori k ON p.kategori_id = k.kategori_id\n" +
-                "where k.kategori_name=? and ? BETWEEN p.date_start AND p.date_end";
-        Promo promo = null;
-        try {
-            connect = DatabaseConnection.getConnection();
-            prepare = connect.prepareStatement(query);
-            prepare.setString(1, kategoriName);
-            prepare.setDate(2, new java.sql.Date(System.currentTimeMillis()));
-            result = prepare.executeQuery();
-            if (result.next()) {
-                promo = new Promo(
-                        result.getString("promo_name"),
-                        result.getDouble("promo_nominal"),
-                        result.getDate("date_start"),
-                        result.getDate("date_end"),
-                        result.getString("kategori_name")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return promo;
-    }
-
-    private Promo getPromoForMenu(String kategoriName, String menuName, String methodName) {
-        String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name, m.menu_name, pm.method_name " +
-                "FROM promo p " +
-                "JOIN kategori k ON p.kategori_id = k.kategori_id " +
-                "JOIN menu m ON p.menu_id = m.menu_id " +
-                "JOIN payment_method pm ON p.method_id = pm.method_id " +
-                "WHERE (k.kategori_name = ? OR m.menu_name = ? OR pm.method_name = ?) AND ? BETWEEN p.date_start AND p.date_end";
-        Promo promo = null;
-        try {
-            connect = DatabaseConnection.getConnection();
-            prepare = connect.prepareStatement(query);
-            prepare.setString(1, kategoriName);
-            prepare.setString(2, menuName);
-            prepare.setString(3, methodName);
-            prepare.setDate(4, Date.valueOf(java.time.LocalDate.now()));
-            result = prepare.executeQuery();
-            if (result.next()) {
-                promo = new Promo(
-                        result.getString("promo_name"),
-                        result.getDouble("promo_nominal"),
-                        result.getDate("date_start"),
-                        result.getDate("date_end"),
-                        result.getString("kategori_name"),
-                        result.getString("menu_name"),
-                        result.getString("method_name")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return promo;
-    }
-    private Promo getPromoForMethod(String kategoriName, String menuName, String methodName) {
-        String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name, m.menu_name, pm.method_name " +
-                "FROM promo p " +
-                "JOIN kategori k ON p.kategori_id = k.kategori_id " +
-                "JOIN menu m ON p.menu_id = m.menu_id " +
-                "JOIN payment_method pm ON p.method_id = pm.method_id " +
-                "WHERE (k.kategori_name = ? OR m.menu_name = ? OR pm.method_name = ?) AND ? BETWEEN p.date_start AND p.date_end";
-        Promo promo = null;
-        try {
-            connect = DatabaseConnection.getConnection();
-            prepare = connect.prepareStatement(query);
-            prepare.setString(1, kategoriName);
-            prepare.setString(2, menuName);
-            prepare.setString(3, methodName);
-            prepare.setDate(4, Date.valueOf(java.time.LocalDate.now()));
-            result = prepare.executeQuery();
-            if (result.next()) {
-                promo = new Promo(
-                        result.getString("promo_name"),
-                        result.getDouble("promo_nominal"),
-                        result.getDate("date_start"),
-                        result.getDate("date_end"),
-                        result.getString("kategori_name"),
-                        result.getString("menu_name"),
-                        result.getString("method_name")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return promo;
-    }
-
+//
 
     //method untuk mendapatkan Name
     private int getPaymentMethodIdByName(String methodName) {
@@ -520,6 +463,8 @@ public class TransaksiScreenController implements Initializable {
     }
 
 
+
+
     public void transaksiMetodeList() {
         List<String> metodeL = Arrays.asList(metodeList);
         ObservableList<String> listData = FXCollections.observableArrayList(metodeL);
@@ -542,6 +487,7 @@ public class TransaksiScreenController implements Initializable {
     public void customerClick() throws IOException {
         MainApp.setRoot("customerScreen");
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         menuDisplayCard();
@@ -551,5 +497,6 @@ public class TransaksiScreenController implements Initializable {
             throw new RuntimeException(e);
         }
         this.transaksiMetodeList();
+
     }
 }
