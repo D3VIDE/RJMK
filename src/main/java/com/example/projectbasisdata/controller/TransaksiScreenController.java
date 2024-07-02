@@ -48,6 +48,8 @@ public class TransaksiScreenController implements Initializable {
     @FXML
     private TableColumn<Temp_order, String> transaksi_col_size;
     @FXML
+    private TableColumn<Temp_order, String> transaksi_col_kategori;
+    @FXML
     private Label transaksi_labelTotal;
     @FXML
     private TextField transaksi_jumlahBayar;
@@ -166,6 +168,7 @@ public class TransaksiScreenController implements Initializable {
         this.transaksi_col_jumlah.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         this.transaksi_col_harga.setCellValueFactory(new PropertyValueFactory<>("harga_nominal"));
         this.transaksi_col_size.setCellValueFactory(new PropertyValueFactory<>("size_name"));
+        this.transaksi_col_kategori.setCellValueFactory(new PropertyValueFactory<>("kategori_name"));
         this.transaksi_tableView.setItems(transaksiList);
 
         int total = 0;
