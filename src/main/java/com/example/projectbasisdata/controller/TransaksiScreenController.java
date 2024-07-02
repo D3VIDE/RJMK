@@ -3,10 +3,7 @@ package com.example.projectbasisdata.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
@@ -74,7 +71,8 @@ public class TransaksiScreenController implements Initializable {
     private ScrollPane transaksi_ScrollPane;
     @FXML
     private ComboBox<String> transaksi_metode;
-
+    @FXML
+    private ComboBox<String> transaksi_promo;
 
     private  ObservableList<DetailMenu> bingkaiListData = FXCollections.observableArrayList();
     private Connection connect;
@@ -340,7 +338,27 @@ public class TransaksiScreenController implements Initializable {
         ObservableList<String> listData = FXCollections.observableArrayList(metodeL);
         this.transaksi_metode.setItems(listData);
     }
+    public List<String> getData() throws SQLException {
+        List<String> data = new ArrayList<>();
+        String query = "select promo_name from promo";
+        this.connect = DatabaseConnection.getConnection();
+        try {
+            PreparedStatement statement = this.connect.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
 
+            while (resultSet.next()) {
+                data.add(resultSet.getString("promo_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+    public void transaksiPromoList() throws SQLException {
+        List<String> promoL = this.getData();
+        ObservableList<String> listData = FXCollections.observableArrayList(promoL);
+        this.transaksi_promo.setItems(listData);
+    }
     @FXML
     public void dashboardClick() throws IOException {
         MainApp.setRoot("mainScreen");
@@ -362,6 +380,7 @@ public class TransaksiScreenController implements Initializable {
         menuDisplayCard();
         try {
             transaksiShowData();
+            this.transaksiPromoList();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
