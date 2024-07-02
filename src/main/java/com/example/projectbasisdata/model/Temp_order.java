@@ -9,11 +9,12 @@ public class Temp_order {
     private String size_name;
     private String kategori_name;
     // Constructor
-    public Temp_order(String menu_name, int quantity, int harga, String size_name) {
+    public Temp_order(String menu_name, int quantity, int harga, String size_name, String kategori_name) {
         this.menu_name = menu_name;
         this.quantity = quantity;
         this.harga_nominal = harga;
         this.size_name = size_name;
+        this.kategori_name = kategori_name;
     }
 
     // Getters
