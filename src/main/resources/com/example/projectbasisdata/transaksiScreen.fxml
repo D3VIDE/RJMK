@@ -160,7 +160,7 @@
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="transaksi_Promo" layoutX="115.0" layoutY="421.0" prefWidth="150.0" promptText="Promo" />
+                                          <ComboBox fx:id="transaksi_promo" layoutX="115.0" layoutY="421.0" prefWidth="150.0" promptText="Promo" />
                                        </children>
                                     </AnchorPane>
                                  </children>
