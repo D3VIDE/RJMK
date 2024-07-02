@@ -2,10 +2,10 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
-<<<<<<< HEAD
-=======
+
+
 <?import javafx.scene.control.ComboBox?>
->>>>>>> a0cf45bd6be228ee15a354ca96acdd7c4e990138
+
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -115,15 +115,15 @@
                                        </font>
                                     </Label>
                                     <Button fx:id="promo_addBtn" layoutX="65.0" layoutY="156.0" mnemonicParsing="false" onAction="#addPromo" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="ADD" />
-<<<<<<< HEAD
+
                                     <Button fx:id="promo_updateBtn" layoutX="175.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
                                     <Button fx:id="promo_deleteBtn" layoutX="287.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
                                     <Button fx:id="promo_clearBtn" layoutX="403.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
-=======
+
                                     <Button fx:id="promo_updateBtn" layoutX="175.0" layoutY="156.0" mnemonicParsing="false" onAction="#updatePromo" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
                                     <Button fx:id="promo_deleteBtn" layoutX="287.0" layoutY="156.0" mnemonicParsing="false" onAction="#deletePromo" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
                                     <Button fx:id="promo_clearBtn" layoutX="403.0" layoutY="156.0" mnemonicParsing="false" onAction="#promoClearBtn" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
->>>>>>> a0cf45bd6be228ee15a354ca96acdd7c4e990138
+
                                     <TextField fx:id="promo_nominal" layoutX="129.0" layoutY="97.0" promptText="\%" />
                                     <DatePicker fx:id="promo_tanggalBerlaku" layoutX="658.0" layoutY="23.0" />
                                     <Label layoutX="540.0" layoutY="64.0" text="Tanggal Berakhir:">
