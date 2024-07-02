@@ -97,64 +97,70 @@
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                              </columnResizePolicy>
                                           </TableView>
-                                          <Label layoutX="54.6" layoutY="272.0000000000001" prefHeight="22.0" prefWidth="52.0" text="Total:" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="54.6" AnchorPane.rightAnchor="189.4">
+                                          <Label layoutX="54.4" layoutY="265.4000000000001" prefHeight="22.0" prefWidth="52.0" text="Total:" AnchorPane.bottomAnchor="286.6" AnchorPane.leftAnchor="54.4" AnchorPane.rightAnchor="189.6">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="transaksi_labelTotal" layoutX="95.0" layoutY="272.0" prefHeight="22.0" prefWidth="79.0" text="\$0.0" AnchorPane.bottomAnchor="280.0000000000001" AnchorPane.rightAnchor="96.19999999999999">
+                                          <Label fx:id="transaksi_labelTotal" layoutX="120.8" layoutY="264.60000000000014" prefHeight="22.0" prefWidth="79.0" text="\$0.0" AnchorPane.bottomAnchor="287.4" AnchorPane.rightAnchor="96.0">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="51.0" layoutY="299.0" text="Bayar:" AnchorPane.bottomAnchor="253.80000000000007" AnchorPane.rightAnchor="205.0">
+                                          <Label layoutX="51.19999999999999" layoutY="293.4000000000001" text="Bayar:" AnchorPane.bottomAnchor="259.4" AnchorPane.rightAnchor="204.8">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="transaksi_jumlahBayar" layoutX="90.0" layoutY="297.0" promptText="\$0.0" AnchorPane.bottomAnchor="251.80000000000007" AnchorPane.rightAnchor="30.799999999999983" />
-                                          <Label layoutX="36.0" layoutY="329.0" prefHeight="22.0" prefWidth="61.0" text="Kembali:" AnchorPane.bottomAnchor="223.0000000000001" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="176.0">
+                                          <TextField fx:id="transaksi_jumlahBayar" layoutX="116.00000000000003" layoutY="291.80000000000007" promptText="\$0.0" AnchorPane.bottomAnchor="257.0" AnchorPane.rightAnchor="30.399999999999977" />
+                                          <Label layoutX="36.0" layoutY="322.2000000000001" prefHeight="22.0" prefWidth="61.0" text="Kembali:" AnchorPane.bottomAnchor="229.8" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="176.0">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="transaksi_labelKembalian" layoutX="95.0" layoutY="329.0" prefHeight="22.0" prefWidth="79.0" text="\$0.0" AnchorPane.bottomAnchor="223.0000000000001" AnchorPane.rightAnchor="96.19999999999999">
+                                          <Label fx:id="transaksi_labelKembalian" layoutX="120.8" layoutY="322.60000000000014" prefHeight="22.0" prefWidth="79.0" text="\$0.0" AnchorPane.bottomAnchor="229.39999999999998" AnchorPane.rightAnchor="96.0">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="transaksi_bayarBtn" layoutX="34.0" layoutY="452.0" mnemonicParsing="false" onAction="#doTransaksi" prefHeight="50.0" prefWidth="242.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="BAYAR" textFill="WHITE" AnchorPane.bottomAnchor="72.00000000000011" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="26.799999999999955">
+                                          <Button fx:id="transaksi_bayarBtn" layoutX="63.0" layoutY="475.0" mnemonicParsing="false" onAction="#doTransaksi" prefHeight="30.0" prefWidth="178.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="BAYAR" textFill="WHITE" AnchorPane.bottomAnchor="61.80000000000007" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="55.39999999999998">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="transaksi_deleteBtn" layoutX="104.0" layoutY="516.6000000000001" mnemonicParsing="false" onAction="#transaksiDeleteBtn" prefHeight="38.0" prefWidth="86.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="DELETE" textFill="WHITE" AnchorPane.bottomAnchor="19.399999999999977" AnchorPane.leftAnchor="104.0" AnchorPane.rightAnchor="106.4">
+                                          <Button fx:id="transaksi_deleteBtn" layoutX="105.0" layoutY="528.0" mnemonicParsing="false" onAction="#transaksiDeleteBtn" prefHeight="38.0" prefWidth="86.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="DELETE" textFill="WHITE" AnchorPane.bottomAnchor="8.000000000000114" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="105.4">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="transaksi_strukBtn" layoutX="10.0" layoutY="518.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="82.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="STRUK" textFill="WHITE" AnchorPane.bottomAnchor="18.000000000000114" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="204.4">
+                                          <Button fx:id="transaksi_strukBtn" layoutX="11.0" layoutY="528.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="82.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="STRUK" textFill="WHITE" AnchorPane.bottomAnchor="8.000000000000114" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="204.2">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="transaksi_clear" layoutX="200.0" layoutY="516.0" mnemonicParsing="false" onAction="#transaksiClearBtn" prefHeight="38.0" prefWidth="90.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="CLEAR" textFill="WHITE" AnchorPane.bottomAnchor="20.000000000000114" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="6.399999999999977">
+                                          <Button fx:id="transaksi_clear" layoutX="200.0" layoutY="528.0" mnemonicParsing="false" onAction="#transaksiClearBtn" prefHeight="38.0" prefWidth="90.0" styleClass="header" stylesheets="@mainScreenStyle.css" text="CLEAR" textFill="WHITE" AnchorPane.bottomAnchor="8.000000000000114" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="6.399999999999977">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
-                                          <Label layoutX="24.0" layoutY="356.60000000000014" prefHeight="22.0" prefWidth="82.0" text="Customer:" AnchorPane.bottomAnchor="195.39999999999998" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="190.4">
+                                          <Label layoutX="24.0" layoutY="348.60000000000014" prefHeight="22.0" prefWidth="82.0" text="Customer:" AnchorPane.bottomAnchor="203.39999999999998" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="190.4">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="transaksi_NamaCustomer" layoutX="116.00000000000003" layoutY="355.00000000000006" promptText="Nama Customer" AnchorPane.bottomAnchor="193.8" AnchorPane.rightAnchor="30.399999999999977" />
-                                          <Label layoutX="36.0" layoutY="393.4000000000001" prefHeight="22.0" prefWidth="63.0" text="Metode:" AnchorPane.bottomAnchor="158.60000000000002" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="196.8">
+                                          <TextField fx:id="transaksi_NamaCustomer" layoutX="116.00000000000003" layoutY="347.00000000000006" promptText="Nama Customer" AnchorPane.bottomAnchor="201.8" AnchorPane.rightAnchor="30.399999999999977" />
+                                          <Label layoutX="36.0" layoutY="385.0000000000001" prefHeight="22.0" prefWidth="63.0" text="Metode:" AnchorPane.bottomAnchor="167.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="196.8">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="transaksi_metode" layoutX="115.20000000000002" layoutY="393.80000000000007" prefWidth="150.0" promptText="Metode" AnchorPane.bottomAnchor="155.0" AnchorPane.rightAnchor="30.399999999999977" />
+                                          <ComboBox fx:id="transaksi_metode" layoutX="115.20000000000002" layoutY="384.20000000000005" prefWidth="150.0" promptText="Metode" AnchorPane.bottomAnchor="164.60000000000002" AnchorPane.rightAnchor="30.399999999999977" />
+                                          <Label layoutX="44.0" layoutY="422.60000000000014" prefHeight="22.0" prefWidth="56.0" text="Promo:" AnchorPane.bottomAnchor="129.39999999999998" AnchorPane.rightAnchor="196.0">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="transaksi_Promo" layoutX="115.0" layoutY="421.0" prefWidth="150.0" promptText="Promo" />
                                        </children>
                                     </AnchorPane>
                                  </children>
