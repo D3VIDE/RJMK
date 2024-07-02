@@ -109,7 +109,7 @@ public class BingkaiProductController implements Initializable {
         }
     }
     public void clear() {
-        this.bingkai_addQuantity.setValueFactory(null);
+        this.bingkai_addQuantity.getValueFactory().setValue(0);
     }
 
     @Override

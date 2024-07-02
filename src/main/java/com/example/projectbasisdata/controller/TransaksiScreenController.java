@@ -178,6 +178,11 @@ public class TransaksiScreenController implements Initializable {
         transaksi_labelTotal.setText("$" + total);
     }
     public void transaksiClearBtn() throws SQLException {
+        this.transaksi_jumlahBayar.setText("");
+        this.transaksi_NamaCustomer.setText("");
+        this.transaksi_metode.getSelectionModel().clearSelection();
+        this.transaksi_labelTotal.setText("$0");
+        this.transaksi_labelKembalian.setText("$0");
         this.connect = DatabaseConnection.getConnection();
         try {
             String insertData = "delete from temp_order";
@@ -296,6 +301,12 @@ public class TransaksiScreenController implements Initializable {
             prepare.setInt(4, customerId);
             prepare.setInt(5, methodId);
             prepare.executeUpdate();
+
+            String query = "update \"order\"\n" +
+                    "set checkclear='FINISH'\n" +
+                    "where checkclear='TEMP'";
+            this.prepare = this.connect.prepareStatement(query);
+            this.prepare.executeUpdate();
 
             // Clear temporary order data after successful insertion
             transaksiClearBtn();

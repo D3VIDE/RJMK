@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.chart.AreaChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.MainScreenController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.MainScreenController">
    <children>
       <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -92,12 +85,12 @@
                                                       <String fx:value="nav-form" />
                                                    </styleClass>
                                                    <children>
-                                                      <Label layoutX="68.0" layoutY="69.0" text="Today Income" textFill="WHITE">
+                                                      <Label layoutX="43.0" layoutY="68.0" text="Most Active Member" textFill="WHITE">
                                                          <font>
                                                             <Font size="17.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label layoutX="97.0" layoutY="30.0" text="\$0.0" textAlignment="CENTER" textFill="WHITE">
+                                                      <Label fx:id="dashboard_activeMember" layoutX="98.0" layoutY="30.0" text="\$0.0" textAlignment="CENTER" textFill="WHITE">
                                                          <font>
                                                             <Font size="26.0" />
                                                          </font>
@@ -110,12 +103,12 @@
                                                       <String fx:value="nav-form" />
                                                    </styleClass>
                                                    <children>
-                                                      <Label layoutX="72.0" layoutY="69.0" text="Total Income" textFill="WHITE">
+                                                      <Label layoutX="82.0" layoutY="68.0" text="Best Seller" textFill="WHITE">
                                                          <font>
                                                             <Font size="17.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label layoutX="97.0" layoutY="30.0" text="\$0.0" textAlignment="CENTER" textFill="WHITE">
+                                                      <Label fx:id="dashboard_bestSeller" layoutX="67.0" layoutY="30.0" text="\$0.0" textAlignment="CENTER" textFill="WHITE">
                                                          <font>
                                                             <Font size="26.0" />
                                                          </font>

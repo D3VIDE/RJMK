@@ -65,6 +65,10 @@ public class MainScreenController implements Initializable {
     private AreaChart<?, ?> dashboard_customerChart;
     @FXML
     private Label dashboard_customerNumber;
+    @FXML
+    private Label dashboard_activeMember;
+    @FXML
+    private Label dashboard_bestSeller;
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet result;
@@ -100,12 +104,53 @@ public class MainScreenController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void dashboardDisplayMemberActive() throws SQLException {
+        String sql = "select customer_name from customer\n" +
+                "where jenis_customer='MEMBER'\n" +
+                "order by member_total_point desc\n" +
+                "limit 1";
+        this.connect = DatabaseConnection.getConnection();
 
+        try {
+            String member = "None";
+            this.prepare = this.connect.prepareStatement(sql);
+            this.result = this.prepare.executeQuery();
+            if (this.result.next()) {
+                member = this.result.getString("customer_name");
+            }
+            this.dashboard_activeMember.setText(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void dashboardBestSeller() throws SQLException {
+        String sql = "select menu_name\n" +
+                "from \"order\" o join detail_menu dm on o.detailmenu_id=dm.detailmenu_id\n" +
+                "join menu m on dm.menu_id=m.menu_id\n" +
+                "group by menu_name, quantity\n" +
+                "order by count(*)*quantity desc\n" +
+                "limit 1\n";
+        this.connect = DatabaseConnection.getConnection();
+
+        try {
+            String menu = "None";
+            this.prepare = this.connect.prepareStatement(sql);
+            this.result = this.prepare.executeQuery();
+            if (this.result.next()) {
+                menu = this.result.getString("menu_name");
+            }
+            this.dashboard_bestSeller.setText(menu);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             this.dashboardDisplayCustomer();
+            this.dashboardDisplayMemberActive();
+            this.dashboardBestSeller();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
