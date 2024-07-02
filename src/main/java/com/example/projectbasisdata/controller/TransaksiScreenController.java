@@ -256,8 +256,84 @@ public class TransaksiScreenController implements Initializable {
     }
 
     public void doTransaksi(){
-        String query = "SELECT * FROM order";
+        int totalHarga = Integer.parseInt(transaksi_labelTotal.getText().replace("$", ""));
+        int jumlahBayar = Integer.parseInt(transaksi_jumlahBayar.getText());
+        int kembalian = jumlahBayar - totalHarga;
 
+        // Retrieve customer ID based on the customer name entered
+        String customerName = transaksi_NamaCustomer.getText();
+        int customerId = getCustomerIdByName(customerName);
+
+        // Retrieve selected payment method ID
+        String selectedMethod = transaksi_metode.getSelectionModel().getSelectedItem();
+        int methodId = getPaymentMethodIdByName(selectedMethod);
+
+        // Insert data into detail_order table
+        String insertQuery = "INSERT INTO detail_order (harga_total, harga_bayar, kembalian, customer_id, method_id) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(insertQuery);
+            prepare.setInt(1, totalHarga);
+            prepare.setInt(2, jumlahBayar);
+            prepare.setInt(3, kembalian);
+            prepare.setInt(4, customerId);
+            prepare.setInt(5, methodId);
+            prepare.executeUpdate();
+
+            // Clear temporary order data after successful insertion
+            transaksiClearBtn();
+
+            // Show success message
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Transaction Successful");
+            alert.setHeaderText(null);
+            alert.setContentText("The transaction was completed successfully!");
+            alert.showAndWait();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Transaction Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while processing the transaction. Please try again.");
+            alert.showAndWait();
+        }
+
+    }
+
+    private int getCustomerIdByName(String customerName) {
+        String query = "SELECT customer_id FROM customer WHERE customer_name = ?";
+        int customerId = -1;
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(query);
+            prepare.setString(1, customerName);
+            result = prepare.executeQuery();
+            if (result.next()) {
+                customerId = result.getInt("customer_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customerId;
+    }
+
+    private int getPaymentMethodIdByName(String methodName) {
+        String query = "SELECT method_id FROM payment_method WHERE method_name = ?";
+        int methodId = -1;
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(query);
+            prepare.setString(1, methodName);
+            result = prepare.executeQuery();
+            if (result.next()) {
+                methodId = result.getInt("method_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return methodId;
     }
     public void transaksiMetodeList() {
         List<String> metodeL = Arrays.asList(metodeList);
