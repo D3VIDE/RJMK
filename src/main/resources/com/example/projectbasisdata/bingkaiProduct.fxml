@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.BingkaiProductController">
+<AnchorPane fx:id="bingkai_from" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="125.0" prefWidth="208.0" stylesheets="@mainScreenStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectbasisdata.controller.BingkaiProductController">
    <children>
-      <VBox fx:id="bingkai_vBox" layoutX="54.0" prefHeight="180.0" prefWidth="230.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="bingkai_vBox" layoutX="54.0" prefHeight="107.0" prefWidth="208.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="230.0">
                <children>
-                  <Label fx:id="bingkai_namaProduk" prefHeight="22.0" prefWidth="154.0" text="Cappucinno">
+                  <Label fx:id="bingkai_namaProduk" prefHeight="22.0" prefWidth="172.0" text="Chocolate Sprinkle">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -19,7 +20,12 @@
                         <Insets left="5.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="bingkai_hargaProduk" contentDisplay="BOTTOM" prefHeight="22.0" prefWidth="75.0" text="\$0.0">
+                  <Label fx:id="bingkai_Size" prefHeight="22.0" prefWidth="64.0" text="Size">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="bingkai_hargaProduk" contentDisplay="BOTTOM" prefHeight="22.0" prefWidth="76.0" text="\$0.0">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -29,15 +35,6 @@
                   </Label>
                </children>
             </HBox>
-            <AnchorPane prefHeight="77.0" prefWidth="230.0">
-               <children>
-                  <Label alignment="CENTER" layoutX="51.0" layoutY="28.0" text="YOUR IMAGE HERE" AnchorPane.bottomAnchor="27.999999999999993" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="51.999999999999986" AnchorPane.topAnchor="28.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
             <HBox alignment="CENTER" prefHeight="61.0" prefWidth="230.0">
                <children>
                   <Spinner fx:id="bingkai_addQuantity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="26.0" prefWidth="108.0">
@@ -48,10 +45,15 @@
                         <Insets right="15.0" />
                      </HBox.margin>
                   </Spinner>
-                  <Button fx:id="bingkai_addBtn" mnemonicParsing="false" prefHeight="38.0" prefWidth="78.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="ADD" textFill="WHITE" />
+                  <Button fx:id="bingkai_addBtn" mnemonicParsing="false" onAction="#addClick" prefHeight="30.0" prefWidth="64.0" styleClass="nav-form" stylesheets="@mainScreenStyle.css" text="ADD" textFill="WHITE" />
                </children>
             </HBox>
          </children>
       </VBox>
    </children>
+   <styleClass>
+      <String fx:value="display-form" />
+      <String fx:value="radius-form" />
+      <String fx:value="shadow" />
+   </styleClass>
 </AnchorPane>

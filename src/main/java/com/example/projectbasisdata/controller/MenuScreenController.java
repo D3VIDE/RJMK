@@ -14,8 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
 import com.example.projectbasisdata.model.DetailMenu;
+import com.example.projectbasisdata.model.Menu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,7 +47,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 public class MenuScreenController implements Initializable {
 
     @FXML
@@ -90,8 +95,13 @@ public class MenuScreenController implements Initializable {
     private Button menu_clearBtn;
     @FXML
     private ComboBox<?> menu_ukuran;
+    private Connection connect;
+    private PreparedStatement prepare;
+    private Statement statement;
+    private ResultSet result;
     private String[] sizeList = new String[]{"Large", "Medium", "Small"};
-    private String[] kategoriList = new String[]{"Coffee", "Cream", "Add Ons"};
+    private String[] kategoriList = new String[]{"COFFEE", "CREAM", "ADD ONS"};
+    private Alert alert;
 
     @FXML
     public void dashboardClick() throws IOException {
@@ -104,6 +114,10 @@ public class MenuScreenController implements Initializable {
     @FXML
     public void promoClick() throws IOException {
         MainApp.setRoot("PromoScreen");
+    }
+    @FXML
+    public void customerClick() throws IOException {
+        MainApp.setRoot("customerScreen");
     }
     public void menuSizeList() {
         List<String> sizeL = new ArrayList<>();
@@ -132,9 +146,234 @@ public class MenuScreenController implements Initializable {
         this.menu_kategori.setItems(listData);
     }
 
+//    public ObservableList<Menu> menuList() throws SQLException { //untuk query menampilkan list yang kita miliki
+//        ObservableList <Menu> listMenu = FXCollections.observableArrayList();
+//        String query = "SELECT * FROM menu";
+//
+//        try{
+//            Connection connect = DatabaseConnection.getConnection();
+//            PreparedStatement prepare = connect.prepareStatement(query);
+//            ResultSet result  = prepare.executeQuery();
+//            Menu menu;
+//            while(result.next()){
+//                menu = new Menu(result.getInt("menu_id"),
+//                        result.getString("menu_name"),
+//                        result.getInt("kategori_id"));
+//                listMenu.add(menu);
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return listMenu;
+//    }
+//    public void initializeMenu()  {
+//      //initialize and load
+//        try{
+//            menu_col_idProduk.setCellValueFactory(new PropertyValueFactory<>("menu_id"));
+//            menu_col_menu.setCellValueFactory(new PropertyValueFactory<>("menu_name"));
+//            menu_col_kategori.setCellValueFactory(new PropertyValueFactory<>("kategori_id"));
+//            ObservableList<Menu> menuInventory = menuList();
+//            menu_tableView.setItems(menuInventory);
+//        }catch (SQLException e){
+//            e.printStackTrace();
+//        }
+//    }
+
+
+public ObservableList<DetailMenu> detailMenuList() throws SQLException {
+    ObservableList<DetailMenu> listDetailMenu = FXCollections.observableArrayList();
+    String query = "SELECT dm.detailmenu_id, k.kategori_name, m.menu_name, s.size_name, dm.harga_nominal " +
+            "FROM detail_menu dm " +
+            "JOIN menu m ON dm.menu_id = m.menu_id " +
+            "JOIN kategori k ON m.kategori_id = k.kategori_id " +
+            "JOIN size s ON dm.size_id = s.size_id";
+
+    try (Connection connect = DatabaseConnection.getConnection();
+         PreparedStatement prepare = connect.prepareStatement(query);
+         ResultSet result = prepare.executeQuery()) {
+        while (result.next()) {
+            DetailMenu menu = new DetailMenu(
+                    result.getInt("detailmenu_id"),
+                    result.getString("kategori_name"),
+                    result.getString("menu_name"),
+                    result.getString("size_name"),
+                    result.getInt("harga_nominal")
+            );
+
+            listDetailMenu.add(menu);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return listDetailMenu;
+}
+
+
+    public void initializeMenu() {
+        try {
+            menu_col_idProduk.setCellValueFactory(new PropertyValueFactory<>("detailmenu_id"));
+            menu_col_kategori.setCellValueFactory(new PropertyValueFactory<>("kategori_name"));
+            menu_col_menu.setCellValueFactory(new PropertyValueFactory<>("menu_name"));
+            menu_col_ukuran.setCellValueFactory(new PropertyValueFactory<>("size_name"));
+            menu_col_harga.setCellValueFactory(new PropertyValueFactory<>("harga_nominal"));
+
+            ObservableList<DetailMenu> detailMenus = detailMenuList();
+            menu_tableView.setItems(detailMenus);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void menuAddBtn() throws SQLException {
+        if (!this.menu_idProduk.getText().isEmpty() && !this.menu_menu.getText().isEmpty() && this.menu_kategori.getSelectionModel().getSelectedItem() != null && this.menu_ukuran.getSelectionModel().getSelectedItem() != null && !this.menu_harga.getText().isEmpty()) {
+            String checkDetailMenuID = "SELECT detailmenu_id FROM detail_menu WHERE detailmenu_id = " + this.menu_idProduk.getText();
+            this.connect = DatabaseConnection.getConnection();
+
+            try {
+                this.statement = this.connect.createStatement();
+                this.result = this.statement.executeQuery(checkDetailMenuID);
+                if (this.result.next()) {
+                    this.alert = new Alert(AlertType.ERROR);
+                    this.alert.setTitle("Message");
+                    this.alert.setHeaderText((String)null);
+                    this.alert.setContentText("ID produk "+ this.menu_idProduk.getText() + " sudah digunakan");
+                    this.alert.showAndWait();
+                } else {
+                    String insertData = "INSERT INTO menu (menu_name, kategori_id)" +
+                            "VALUES (" +
+                            "?," +
+                            "(SELECT kategori_id FROM kategori WHERE kategori_name = ?)" +
+                            ")";
+                    this.prepare = this.connect.prepareStatement(insertData);
+                    this.prepare.setString(1, this.menu_menu.getText());
+                    this.prepare.setString(2, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                    this.prepare.executeUpdate();
+                    String insertData2 = "INSERT INTO detail_menu (detailmenu_id, harga_nominal, menu_id, size_id)" +
+                            "VALUES (?," +
+                            "?," +
+                            "(SELECT menu_id FROM menu WHERE menu_name = ? AND kategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?))," +
+                            "(SELECT size_id FROM size WHERE size_name = ?))";
+                    this.prepare = this.connect.prepareStatement(insertData2);
+                    this.prepare.setInt(1, Integer.parseInt(this.menu_idProduk.getText()));
+                    this.prepare.setInt(2, Integer.parseInt(this.menu_harga.getText()));
+                    this.prepare.setString(3, this.menu_menu.getText());
+                    this.prepare.setString(4, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                    this.prepare.setString(5, (String) this.menu_ukuran.getSelectionModel().getSelectedItem());
+                    this.prepare.executeUpdate();
+                    this.alert = new Alert(AlertType.INFORMATION);
+                    this.alert.setTitle("Message");
+                    this.alert.setHeaderText((String)null);
+                    this.alert.setContentText("Successfully Added!");
+                    this.alert.showAndWait();
+                    this.initializeMenu();
+                    this.menuClearBtn();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            this.alert = new Alert(AlertType.ERROR);
+            this.alert.setTitle("Message");
+            this.alert.setHeaderText((String)null);
+            this.alert.setContentText("Please fill all blank fields");
+            this.alert.showAndWait();
+        }
+
+    }
+    public void menuUpdateBtn() throws SQLException {
+        if (!this.menu_idProduk.getText().isEmpty() && !this.menu_menu.getText().isEmpty() && this.menu_kategori.getSelectionModel().getSelectedItem() != null && this.menu_ukuran.getSelectionModel().getSelectedItem() != null && !this.menu_harga.getText().isEmpty()) {
+            this.connect = DatabaseConnection.getConnection();
+            try {
+                String insertData = "UPDATE menu\n" +
+                        "SET menu_name = ?,\n" +
+                        "\tkategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?)  \n" +
+                        "WHERE menu_id = (select menu_id from detail_menu where detailmenu_id= ?)";
+                this.prepare = this.connect.prepareStatement(insertData);
+                this.prepare.setString(1, this.menu_menu.getText());
+                this.prepare.setString(2, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                this.prepare.setInt(3, Integer.parseInt(this.menu_idProduk.getText()));
+                this.prepare.executeUpdate();
+                String insertData2 = "UPDATE detail_menu\n" +
+                        "SET harga_nominal = ?,\n" +
+                        "\tmenu_id = (SELECT menu_id FROM menu WHERE menu_name = ? AND kategori_id = (SELECT kategori_id FROM kategori WHERE kategori_name = ?)),\n" +
+                        "\tsize_id = (SELECT size_id FROM size WHERE size_name = ?)\n" +
+                        "WHERE detailmenu_id = ?";
+                this.prepare = this.connect.prepareStatement(insertData2);
+                this.prepare.setInt(1, Integer.parseInt(this.menu_harga.getText()));
+                this.prepare.setString(2, this.menu_menu.getText());
+                this.prepare.setString(3, (String) this.menu_kategori.getSelectionModel().getSelectedItem());
+                this.prepare.setString(4, (String) this.menu_ukuran.getSelectionModel().getSelectedItem());
+                this.prepare.setInt(5, Integer.parseInt(this.menu_idProduk.getText()));
+                this.prepare.executeUpdate();
+                this.alert = new Alert(AlertType.INFORMATION);
+                this.alert.setTitle("Message");
+                this.alert.setHeaderText((String)null);
+                this.alert.setContentText("Successfully Updated!");
+                this.alert.showAndWait();
+                this.initializeMenu();
+                this.menuClearBtn();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            this.alert = new Alert(AlertType.ERROR);
+            this.alert.setTitle("Message");
+            this.alert.setHeaderText((String)null);
+            this.alert.setContentText("Please fill all blank fields");
+            this.alert.showAndWait();
+        }
+    }
+    public void menuClearBtn() {
+        this.menu_idProduk.setText("");
+        this.menu_menu.setText("");
+        this.menu_kategori.getSelectionModel().clearSelection();
+        this.menu_ukuran.getSelectionModel().clearSelection();
+        this.menu_harga.setText("");
+    }
+    @FXML
+    void deleteMenu() {
+        //done
+        DetailMenu selectedMenu = menu_tableView.getSelectionModel().getSelectedItem();
+        if (selectedMenu != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Menu");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete this menu?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String sql = "DELETE FROM detail_menu WHERE detailmenu_id =?";
+                try {
+                    this.connect = DatabaseConnection.getConnection();
+                    this.prepare = this.connect.prepareStatement(sql);
+                    this.prepare.setInt(1, selectedMenu.getDetailmenu_id());
+                    this.prepare.executeUpdate();
+                    String sql2 = "DELETE FROM MENU WHERE menu_name = ?";
+                    this.connect = DatabaseConnection.getConnection();
+                    this.prepare = this.connect.prepareStatement(sql2);
+                    this.prepare.setString(1, selectedMenu.getMenu_name());
+                    this.prepare.executeUpdate();
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Menu Deleted");
+                    successAlert.setHeaderText(null);
+                    successAlert.setContentText("Menu has been deleted successfully!");
+                    successAlert.showAndWait();
+
+                    this.initializeMenu();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Menu Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a menu to delete!");
+            alert.showAndWait();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.menuSizeList();
         this.menuKategoriList();
+        this.initializeMenu();
     }
 }

@@ -2,50 +2,50 @@ package com.example.projectbasisdata.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 public class Order {
-    private int id;
-    private LocalDateTime orderDateTime;
-    private int customerId;
-    private List<OrderDetail> orderDetails;
+    private int order_number;
+    private Date order_date;
+    private int quantity;
+    private int detailmenu_id;
 
-
-    public Order(int id, LocalDateTime orderDateTime, int customerId, List<OrderDetail> orderDetails) {
-        this.id = id;
-        this.orderDateTime = orderDateTime;
-        this.customerId = customerId;
-        this.orderDetails = orderDetails;
+    public Order(int order_number, Date order_date, int quantity, int detailmenu_id) {
+        this.order_number = order_number;
+        this.order_date = order_date;
+        this.quantity = quantity;
+        this.detailmenu_id = detailmenu_id;
     }
 
-    public int getId() {
-        return id;
+    public int getOrder_number() {
+        return order_number;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrder_number(int order_number) {
+        this.order_number = order_number;
     }
 
-    public LocalDateTime getOrderDateTime() {
-        return orderDateTime;
+    public Date getOrder_date() {
+        return order_date;
     }
 
-    public void setOrderDateTime(LocalDateTime orderDateTime) {
-        this.orderDateTime = orderDateTime;
+    public void setOrder_date(Date order_date) {
+        this.order_date = order_date;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public List<OrderDetail> getOrderDetails() {
-        return orderDetails;
+    public int getDetailmenu_id() {
+        return detailmenu_id;
     }
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
+    public void setDetailmenu_id(int detailmenu_id) {
+        this.detailmenu_id = detailmenu_id;
     }
 }

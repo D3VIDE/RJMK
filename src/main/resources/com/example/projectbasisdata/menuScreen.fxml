@@ -37,7 +37,7 @@
                               <Button fx:id="dashboard_btn" layoutX="13.0" layoutY="208.0" mnemonicParsing="false" onAction="#dashboardClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="DASHBOARD" />
                               <Button fx:id="menu_btn" layoutX="13.0" layoutY="260.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="MENU" />
                               <Button fx:id="transaksi_btn" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" onAction="#transaksiClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="TRANSAKSI" />
-                              <Button fx:id="customer_btn" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="CUSTOMER" />
+                              <Button fx:id="customer_btn" layoutX="13.0" layoutY="365.0" mnemonicParsing="false" onAction="#customerClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="CUSTOMER" />
                               <Button fx:id="promo_btn" layoutX="13.0" layoutY="417.0" mnemonicParsing="false" onAction="#promoClick" prefHeight="40.0" prefWidth="200.0" styleClass="nav-button" stylesheets="@inventoryStyle.css" text="PROMO" />
                            </children>
                         </AnchorPane>
@@ -60,8 +60,8 @@
                                       <columns>
                                         <TableColumn fx:id="menu_col_idProduk" prefWidth="87.19999313354492" text="ID Produk" />
                                         <TableColumn fx:id="menu_col_kategori" prefWidth="92.00001525878906" text="Kategori" />
-                                          <TableColumn fx:id="menu_col_menu" prefWidth="92.00001525878906" text="Menu" />
-                                          <TableColumn fx:id="menu_col_ukuran" prefWidth="92.00001525878906" text="Ukuran" />
+                                          <TableColumn fx:id="menu_col_menu" prefWidth="92.00001525878906" text="Nama Produk" />
+                                          <TableColumn fx:id="menu_col_ukuran" prefWidth="92.00001525878906" text="Size" />
                                           <TableColumn fx:id="menu_col_harga" prefWidth="92.00001525878906" text="Harga" />
                                       </columns>
                                        <columnResizePolicy>
@@ -106,10 +106,10 @@
                                        </font>
                                     </Label>
                                     <TextField fx:id="menu_harga" layoutX="395.0" layoutY="62.0" promptText="\$0.0" />
-                                    <Button fx:id="menu_addBtn" layoutX="65.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="ADD" />
-                                    <Button fx:id="menu_updateBtn" layoutX="160.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
-                                    <Button fx:id="menu_deleteBtn" layoutX="254.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
-                                    <Button fx:id="menu_clearBtn" layoutX="349.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
+                                    <Button fx:id="menu_addBtn" layoutX="65.0" layoutY="156.0" mnemonicParsing="false" onAction="#menuAddBtn" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="ADD" />
+                                    <Button fx:id="menu_updateBtn" layoutX="160.0" layoutY="156.0" mnemonicParsing="false" onAction="#menuUpdateBtn" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="UPDATE" />
+                                    <Button fx:id="menu_deleteBtn" layoutX="254.0" layoutY="156.0" mnemonicParsing="false" onAction="#deleteMenu" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="DELETE" />
+                                    <Button fx:id="menu_clearBtn" layoutX="349.0" layoutY="156.0" mnemonicParsing="false" onAction="#menuClearBtn" prefHeight="40.0" prefWidth="88.0" styleClass="btn" stylesheets="@inventoryStyle.css" text="CLEAR" />
                                     <ComboBox fx:id="menu_ukuran" layoutX="395.0" layoutY="22.0" prefWidth="150.0" promptText="Choose Size" />
                                  </children>
                               </AnchorPane>
