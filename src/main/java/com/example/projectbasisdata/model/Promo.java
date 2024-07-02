@@ -35,6 +35,13 @@ public class Promo {
         this.menu_name = menu_name;
         this.method_name = method_name;
     }
+    public Promo(String promo_name, double promo_nominal, Date date_start, Date date_end, String kategori_name) {
+        this.promo_name = promo_name;
+        this.promo_nominal = promo_nominal;
+        this.date_start = date_start;
+        this.date_end = date_end;
+        this.kategori_name = kategori_name;
+    }
 
 
 
