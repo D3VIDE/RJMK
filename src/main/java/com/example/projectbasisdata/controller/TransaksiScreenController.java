@@ -10,10 +10,7 @@ import java.util.ResourceBundle;
 
 import com.example.projectbasisdata.DatabaseConnection;
 import com.example.projectbasisdata.MainApp;
-import com.example.projectbasisdata.model.Customer;
-import com.example.projectbasisdata.model.DetailMenu;
-import com.example.projectbasisdata.model.Order;
-import com.example.projectbasisdata.model.Temp_order;
+import com.example.projectbasisdata.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -268,6 +265,19 @@ public class TransaksiScreenController implements Initializable {
         String selectedMethod = transaksi_metode.getSelectionModel().getSelectedItem();
         int methodId = getPaymentMethodIdByName(selectedMethod);
 
+        Temp_order selectedOrder = transaksi_tableView.getSelectionModel().getSelectedItem();
+        if (selectedOrder != null) {
+            Promo promo = getPromoForMenu(selectedOrder.getKategori_name(), selectedOrder.getMenu_name(), selectedMethod);
+            if (promo != null) {
+                totalHarga -= (int) promo.getPromo_nominal();
+                Alert promoAlert = new Alert(Alert.AlertType.INFORMATION);
+                promoAlert.setTitle("Promotion Applied");
+                promoAlert.setHeaderText(null);
+                promoAlert.setContentText("Promotion '" + promo.getPromo_name() + "' applied! New total: $" + totalHarga);
+                promoAlert.showAndWait();
+            }
+        }
+
         // Insert data into detail_order table
         String insertQuery = "INSERT INTO detail_order (harga_total, harga_bayar, kembalian, customer_id, method_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -299,43 +309,72 @@ public class TransaksiScreenController implements Initializable {
             alert.setContentText("An error occurred while processing the transaction. Please try again.");
             alert.showAndWait();
         }
+        if (selectedMethod == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Payment Method Not Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a payment method!");
+            alert.showAndWait();
+            return;
+        }
+
+        if (methodId == -1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Payment Method Not Found");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a valid payment method!");
+            alert.showAndWait();
+            return;
+        }
+
 
     }
-
-    private int getCustomerIdByName(String customerName) {
-        //
-        String selectQuery = "SELECT customer_id FROM customer WHERE customer_name = ?";
-        String insertQuery = "INSERT INTO customer (customer_name, jenis_customer, member_total_point) VALUES (?, ?, ?)";
-        int customerId = -1;
-
+    private Promo getPromoForMenu(String kategoriName, String menuName, String methodName) {
+        String query = "SELECT p.promo_name, p.promo_nominal, p.date_start, p.date_end, k.kategori_name, m.menu_name, pm.method_name " +
+                "FROM promo p " +
+                "JOIN kategori k ON p.kategori_id = k.kategori_id " +
+                "JOIN menu m ON p.menu_id = m.menu_id " +
+                "JOIN payment_method pm ON p.method_id = pm.method_id " +
+                "WHERE k.kategori_name = ? AND m.menu_name = ? AND pm.method_name = ? AND ? BETWEEN p.date_start AND p.date_end";
+        Promo promo = null;
         try {
             connect = DatabaseConnection.getConnection();
-
-            // Check if customer exists
-            prepare = connect.prepareStatement(selectQuery);
-            prepare.setString(1, customerName);
+            prepare = connect.prepareStatement(query);
+            prepare.setString(1, kategoriName);
+            prepare.setString(2, menuName);
+            prepare.setString(3, methodName);
+            prepare.setDate(4, new java.sql.Date(System.currentTimeMillis()));
             result = prepare.executeQuery();
-
             if (result.next()) {
-                customerId = result.getInt("customer_id");
-            } else {
-                // Insert new customer if not found
-                prepare = connect.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-                prepare.setString(1, customerName);
-                prepare.setString(2, "UMUM");
-                prepare.setInt(3, 0);
-                prepare.executeUpdate();
-
-                // Retrieve the generated customer_id
-                result = prepare.getGeneratedKeys();
-                if (result.next()) {
-                    customerId = result.getInt(1);
-                }
+                promo = new Promo(
+                        result.getString("promo_name"),
+                        result.getDouble("promo_nominal"),
+                        result.getDate("date_start"),
+                        result.getDate("date_end"),
+                        result.getString("kategori_name"),
+                        result.getString("menu_name"),
+                        result.getString("method_name")
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return promo;
+    }
+    private int getCustomerIdByName(String customerName) {
+        String query = "SELECT customer_id FROM customer WHERE customer_name = ?";
+        int customerId = -1;
+        try {
+            connect = DatabaseConnection.getConnection();
+            prepare = connect.prepareStatement(query);
+            prepare.setString(1, customerName);
+            result = prepare.executeQuery();
+            if (result.next()) {
+                customerId = result.getInt("customer_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return customerId;
     }
 
@@ -355,6 +394,7 @@ public class TransaksiScreenController implements Initializable {
         }
         return methodId;
     }
+
     public void transaksiMetodeList() {
         List<String> metodeL = Arrays.asList(metodeList);
         ObservableList<String> listData = FXCollections.observableArrayList(metodeL);
